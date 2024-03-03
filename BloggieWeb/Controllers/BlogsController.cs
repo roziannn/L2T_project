@@ -1,13 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BloggieWeb.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BloggieWeb.Controllers
 {
     public class BlogsController : Controller
+
     {
-        [HttpGet]
-        public IActionResult Index(string urlHandle)
+        private readonly IBlogPostRepository blogPostRepository;
+
+        public BlogsController(IBlogPostRepository blogPostRepository) // inject the repository
         {
-            return View();
+            this.blogPostRepository = blogPostRepository;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Index(string urlHandle)
+        {
+            var blogPost = await blogPostRepository.GetByUrlHandleAsync(urlHandle);
+
+            return View(blogPost);
+        }
+
     }
 }

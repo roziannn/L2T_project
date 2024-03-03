@@ -20,3 +20,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+/*added 3/3/24 */
+.blog-details-content img{
+    max-width:100%;
+}

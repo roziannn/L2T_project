@@ -1,11 +1,8 @@
 ﻿<!--use model bainding to show data-->
-@model List<BloggieWeb.Models.Domain.BlogPost>;
-
-
+@model BloggieWeb.Models.ViewModels.HomeViewModel;
 @{
     ViewData["Title"] = "Home Page";
 }
-
 
 <div class="container col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-5 py-5">
@@ -28,10 +25,24 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-6">
-            @if(Model != null && Model.Any())
+        <div class="col-6 d-flex">
+            @if (Model != null && Model.Tags.Any())
             {
-                foreach (var blogPost in Model)
+                @foreach (var tag in Model.Tags)
+                {
+                    <span class="badge bg-dark me-1">@tag.Name</span>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            @if(Model != null && Model.BlogPosts.Any())
+            {
+                foreach (var blogPost in Model.BlogPosts)
                 {
                     <div class="mb-5 bg-light box-shadow p-5">
                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading" 
