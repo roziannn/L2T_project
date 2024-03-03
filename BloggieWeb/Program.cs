@@ -1,5 +1,6 @@
 using BloggieWeb.Data;
 using BloggieWeb.Repositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BloggieDbContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieDbConnectionString")));
 // added 29/2/24
+
+// added 3/3/24 Inject AuthDbContext
+builder.Services.AddDbContext<AuthDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbConnectionString")));
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().
+    AddEntityFrameworkStores<AuthDbContext>();
+// added 3/3/24
 
 // [Repository Pattern]
 // added 1/3/24
@@ -36,6 +45,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// added 3/3/24
+app.UseAuthentication();
+// added 3/3/24
 
 app.UseAuthorization();
 
