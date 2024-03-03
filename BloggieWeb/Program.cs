@@ -19,6 +19,17 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbCon
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().
     AddEntityFrameworkStores<AuthDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default settings pass
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+});
 // added 3/3/24
 
 // [Repository Pattern]
