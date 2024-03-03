@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿<!--using identity signInManager. added 3/3/24, 11:04 pm -->
+@using Microsoft.AspNetCore.Identity 
+@inject SignInManager<IdentityUser> signInManager;
+<!--using identity signInManager. added 3/3/24, 11:04 pm -->
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -55,8 +61,19 @@
                             </ul>
                         </li>
                     </ul>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <div class="me-3 text-light">
+                                @User?.Identity?.Name <!--if the identity object is not null, gimmee the name from it-->
+                            </div>
+                            <a class="me-3 btn bg-light text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                        }
+                        else
+                        {   
+                        <a class="me-3 btn bg-light text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         <a class="me-3 btn bg-light text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                        }
                         
                     </div>
                 </div>
