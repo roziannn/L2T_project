@@ -22,11 +22,24 @@
                 <div class="mb-3">
                     @if (signInManager.IsSignedIn(User))
                     {
-                        <a id="btnLike" style="cursor:pointer;" >
-                            <i class="bi bi-hand-thumbs-up"></i>
-                        </a>
+                        if (Model.Liked)
+                        {
+                            //user already liked so the thumb button trigger(btnLike) for
+                            // addLikeForBlog func will not showed
+                            <a style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up-fill"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a id="btnLike" style="cursor:pointer;">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                            </a>
+                        }
+
+
                     }
-                    <span>@Model.TotalLikes likes</span>
+                    <span id="totalLikes">@Model.TotalLikes likes</span>
                 </div>
 
                 <div class="mb-3 d-flex">
@@ -53,10 +66,23 @@
 @section Scripts {
     <script>
         const btnLikeElement = document.getElementById('btnLike');
+        const totalLikesElement = document.getElementById('totalLikes');
+
+        async function getTotalLikes() { // bcs GET method don't required a body
+            fetch('/api/blogpostlike/@Model.Id/totalLikes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*'
+                }
+            })
+                .then(data => data.json())
+                .then(result => totalLikesElement.innerHTML = result);
+        }
 
         async function addLikeForBlog() { // for action method using fetch
             fetch('/api/BlogPostLike/Add', {
-                method: 'post',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': '*/*'
@@ -66,7 +92,11 @@
                     userId: '@userManager.GetUserId(User)'
                 }) // the name should be matches wth the name of request object inside the controller
             })
-                .then(console.log('Req Finished'));
+                .then(() => {
+                    btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>'; // if btnLike was clicked, change the icon into fill thumb
+                    btnLikeElement.removeEventListener('click', addLikeForBlog); // then user no longer using the click btn again
+                    getTotalLikes();
+                });
         }
 
         btnLikeElement.addEventListener('click', addLikeForBlog);

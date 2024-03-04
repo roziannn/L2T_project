@@ -32,5 +32,14 @@ namespace BloggieWeb.Controllers
             return Ok();
 
         }
+
+        [HttpGet]
+        [Route("{blogPostId:Guid}/totalLikes")] // get for show real-time update the like totals
+        public async Task<IActionResult> GetTotalLikesForBlog([FromRoute] Guid blogPostId)
+        {
+            var totalLikes = await blogPostLikeRepository.GetTotalLikes(blogPostId);
+
+            return Ok(totalLikes);
+        }
     }
 }
