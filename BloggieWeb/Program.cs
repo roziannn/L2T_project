@@ -42,6 +42,10 @@ builder.Services.AddScoped<IBlogPostRepository, BlogPostRepository>();
 builder.Services.AddScoped<IImageRepository, CloudinaryImageRepository>();
 // added 3/3/24
 
+// added 4/3/24
+builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
+// added 4/3/24
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
