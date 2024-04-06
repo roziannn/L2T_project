@@ -7,101 +7,115 @@
     ViewData["Title"] = Model.PageTitle;
 }
 
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-12 col-lg-6">
+<div class="container">
+    <section class="section-article my-5 py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8 mb-5">
 
-            @if (Model != null)
-            {
-                <h1 class="mb-3">@Model.Heading</h1>
-                <div class="d-flex justify-content-between mb-3">
-                    <span class="text-secondary">@Model.Author</span>
-                    <span class="text-secondary">@Model.PublishedDate.ToShortDateString()</span>
-                </div>
+                @if (Model != null)
+                {
+                <div class="article-head text-center">
+                    <h2 class="mb-3">@Model.Heading</h2>
+                    <div class="row mb-3">
+                        <span class="article-author mb-3">By @Model.Author</span>
+                        <span class="article-date mb-3">@Model.PublishedDate.ToLongDateString()</span>
 
-                <div class="mb-3">
-                    @if (signInManager.IsSignedIn(User))
-                    {
-                        if (Model.Liked)
+
+                        <div class="mb-3">
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                if (Model.Liked)
+                                {
+                                    //user already liked so the thumb button trigger(btnLike) for
+                                    // addLikeForBlog func will not showed
+                                    <a style="cursor:pointer;">
+                                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a id="btnLike" style="cursor:pointer;">
+                                        <i class="bi bi-hand-thumbs-up"></i>
+                                    </a>
+                                }
+
+
+                            }
+                            <span id="totalLikes">@Model.TotalLikes likes</span>
+                        </div>
+                    </div>
+                    </div>
+
+
+
+                    <img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
+                    <div class="mb-3 blog-details-content">
+                        @Html.Raw(@Model.Content) <!--parsing the html and showing just only text result w/o the html tags-->
+                    </div>
+                    <div class="mb-5 d-flex">
+                        Tags:
+                        @foreach (var tag in Model.Tags)
                         {
-                            //user already liked so the thumb button trigger(btnLike) for
-                            // addLikeForBlog func will not showed
-                            <a style="cursor:pointer;">
-                                <i class="bi bi-hand-thumbs-up-fill"></i>
-                            </a>
-                        }
-                        else
-                        {
-                            <a id="btnLike" style="cursor:pointer;">
-                                <i class="bi bi-hand-thumbs-up"></i>
-                            </a>
-                        }
-
-
-                    }
-                    <span id="totalLikes">@Model.TotalLikes likes</span>
-                </div>
-
-                <div class="mb-3 d-flex">
-                    @foreach (var tag in Model.Tags)
-                    {
-                        <span class="badge bg-secondary me-1">@tag.Name</span>
-                    }
-                </div>
-
-                <img src="@Model.FeaturedImageUrl" class="d-block img-fluid mb-3" />
-                <div class="mb-3 blog-details-content">
-                    @Html.Raw(@Model.Content) <!--parsing the html and showing just only text result w/o the html tags-->
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Comments</h5>
-                        @if (signInManager.IsSignedIn(User))
-                        {
-                            <form method="POST">
-                                <div class="mb-3">
-                                    <label class="form-label">Comment Description</label>
-                                    <input type="text" class="form-control" asp-for="CommentDescription" />
-                                </div>
-                                <div class="mb-3">
-                                    <button type="submit" class="btn btn-dark">Submit</button>
-                                    <!--when it stored, id post blog nya juga ikut ke store dgn komentarnya-->
-                                    <input type="hidden" asp-for="Id" />
-                                    <input type="hidden" asp-for="UrlHandle" />
-                                </div>
-                            </form>
+                            <span class="mx-2 text-tags">@tag.Name</span>
                         }
                     </div>
-                    <div class="card-body">
-                        @if (Model.Comments != null && Model.Comments.Any())
-                        {
-                            @foreach (var comment in Model.Comments)
-                            {
 
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div>
-                                            @comment.Description
+                    <div class="card rounded-0">
+                        <div class="card-header bg-body-secondary p-3 border-0">
+                            <h6 class="text-head-comments">Leave a Discussion</h6>
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                <form method="POST">
+                                    <div class="mb-3">
+                                       
+                                        <textarea class="form-control rounded-0" asp-for="CommentDescription"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="text-end">
+                                        <button type="submit" class="btn btn-dark rounded-0">Send Comment</button>
                                         </div>
-                                        <div class="d-flex justify-content-between">
-                                            <span class="text-secondary">@comment.Username</span>
-                                            <span class="text-secondary">@comment.DateAdded.ToShortDateString()</span>
+                                        <!--when it stored, id post blog nya juga ikut ke store dgn komentarnya-->
+                                        <input type="hidden" asp-for="Id" />
+                                        <input type="hidden" asp-for="UrlHandle" />
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                        <div class="card-body">
+                            @if (Model.Comments != null && Model.Comments.Any())
+                            {
+                                @foreach (var comment in Model.Comments)
+                                {
+
+                                    <div class="card rounded-0 mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between comment-col">
+                                                <span class="text-user pb-3">@comment.Username</span>
+                                                <span class="text-date">@comment.DateAdded.ToLongDateString()</span>
+                                            </div>
+                                            <div>
+                                                @comment.Description
+                                            </div>
                                         </div>
                                     </div>
+                                }
+                            }else{
+                                <div class="text-center">
+                                   There's no comment.
                                 </div>
+                           
                             }
-                        }
+                        </div>  
                     </div>
-                </div>
-            }
-            else
-            {
-                <p>Blog post not found!.</p>
-            }
+                }
+                else
+                {
+                    <p>Blog post not found!.</p>
+                }
 
+            </div>
         </div>
-    </div>
+    </section>
 </div>
 
 @section Scripts {

@@ -18,7 +18,11 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
 }
 
 
@@ -26,3 +30,96 @@ body {
 .blog-details-content img{
     max-width:100%;
 }
+
+.nav-link {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.navbar-brand{
+    font-weight:800;
+}
+
+.text-footer{
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.text-footer-brand {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.text-tags {
+    font-weight: 500;
+    border-bottom: 1px solid;
+    border-bottom-color: #a1a1a1;
+}
+
+/*NAVBAR::Dropdown*/
+.dropdown-menu {
+    border:none;
+    border-radius:0;
+    background-color: #f3f3f3;
+}
+
+.dropdown-item {
+    font-size:14px;
+    font-weight:500;
+    color: #fff;
+}
+
+.dropdown-item:hover {
+   background-color: #f8f8f8;
+}
+
+/*HOME::article section*/
+.article-author{
+    font-weight: 600;
+    font-size:15px;
+}
+.article-date {
+    font-weight: 500;
+    font-size: 13px;
+    color: #a1a1a1;
+}
+.article-heading{
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+}
+
+/*READ::article section*/
+.text-head-comments {
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px 0px;
+    margin: 0;
+}
+
+.comment-col .text-user {
+    font-weight: 600;
+}
+
+.comment-col .text-date {
+    font-size: 13px;
+    color: #a1a1a1;
+}
+
+
+/*SHOP::All Product*/
+#filterProductBtn{
+    font-size: 13px;
+}
+
+.product{
+    margin-bottom:14px;
+}
+/*
+#filterProduct {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    background-color: #000;
+}
+*/

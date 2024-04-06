@@ -29,6 +29,13 @@ namespace BloggieWeb.Controllers
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddTagRequest addTagRequest)
         {
+
+            ValidateTagRequest(addTagRequest);
+
+            if (ModelState.IsValid == false)
+            {
+                return View();
+            }
             // added 1/3/24
             // mapping the addTagRequest to Tag domain model
             var tag = new Tag
@@ -108,6 +115,17 @@ namespace BloggieWeb.Controllers
 
             // show an error notifications
             return RedirectToAction("Edit", new {id = editTagRequest.Id});
+        }
+
+        private void ValidateTagRequest(AddTagRequest request)
+        {
+            if (request.Name is not null && request.DisplayName is not null) //cek jika input field diisi/blm
+            {
+                if (request.Name == request.DisplayName) // kalau input name sm displayName sama, show error
+                {
+                    ModelState.AddModelError("DisplayName", "Name cannont be the same as DisplayName");
+                }
+            }
         }
     }
 }
