@@ -1,5 +1,6 @@
 using BloggieWeb.Data;
 using BloggieWeb.Repositories;
+using BloggieWeb.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +51,10 @@ builder.Services.AddScoped<IBlogPostLikeRepository, BlogPostLikeRepository>();
 builder.Services.AddScoped<IBlogPostCommentRepository, BlogPostCommentRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 // added 11/3/24
+
+// added 24/6/24
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
 
 var app = builder.Build();
 
