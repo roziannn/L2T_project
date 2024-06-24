@@ -1,4 +1,5 @@
 ﻿using BloggieWeb.Models.Domain;
+using BloggieWeb.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BloggieWeb.Data

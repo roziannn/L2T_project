@@ -3,6 +3,7 @@ using BloggieWeb.Models.Domain;
 using BloggieWeb.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 
 namespace BloggieWeb.Controllers
 {
@@ -22,10 +23,10 @@ namespace BloggieWeb.Controllers
         [HttpGet("LoadNotifications")]
         public async Task<IActionResult> LoadNotifications()
         {
-
+            string userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             try
             {
-                var data = await _notificationService.GetAll();
+                var data = await _notificationService.GetAll(userEmail);
                 return Ok(data);
             }
             catch (Exception ex)

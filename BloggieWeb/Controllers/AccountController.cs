@@ -94,6 +94,12 @@ namespace BloggieWeb.Controllers
         }
 
         [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View();

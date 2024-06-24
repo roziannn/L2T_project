@@ -26,7 +26,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-</head>
+    <link href='https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css' rel='stylesheet'>
+
+    @RenderSection("Styles", required: false)
+    </head>
 
 
 <body class="mb-0">
@@ -89,6 +92,14 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li>
+                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Dashboard"
+                                           asp-action="Index">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Broadcast"
+                                           asp-action="Index">Broadcast</a>
+                                    </li>
+                                    <li>
                                         <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminTags"
                                            asp-action="Add">Add Tag</a>
                                     </li>
@@ -131,7 +142,7 @@
         </nav>
     </header>
 
-    <main role="main">
+    <main role="main" class="m-3">
         @RenderBody()
     </main>
 
@@ -151,6 +162,10 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -29,13 +29,13 @@
                                     //user already liked so the thumb button trigger(btnLike) for
                                     // addLikeForBlog func will not showed
                                     <a style="cursor:pointer;">
-                                        <i class="bi bi-hand-thumbs-up-fill"></i>
+                                            <i class='bx bxs-like'></i>
                                     </a>
                                 }
                                 else
                                 {
                                     <a id="btnLike" style="cursor:pointer;">
-                                        <i class="bi bi-hand-thumbs-up"></i>
+                                            <i class='bx bx-like'></i>
                                     </a>
                                 }
 
@@ -148,7 +148,7 @@
                 }) // the name should be matches wth the name of request object inside the controller
             })
                 .then(() => {
-                    btnLikeElement.innerHTML = '<i class="bi bi-hand-thumbs-up-fill"></i>'; // if btnLike was clicked, change the icon into fill thumb
+                    btnLikeElement.innerHTML = '<i class="bx bxs-like"></i>'; // if btnLike was clicked, change the icon into fill thumb
                     btnLikeElement.removeEventListener('click', addLikeForBlog); // then user no longer using the click btn again
                     getTotalLikes();
                 });

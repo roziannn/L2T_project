@@ -1,0 +1,114 @@
+﻿@{
+    ViewData["Title"] = "Broadcast";
+}
+
+<div class="container col-xxl-12 px-4 py-5">
+    <div class="row align-items-center g-5 py-5">
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="fw-bold">Broadcast System</h5>
+                <button type="button" class="btn btn-dark" id="btnCreateBroadcast" data-bs-toggle="modal" data-bs-target="#createBroadcastModal">
+                    Create Broadcast
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <table id="broadcastTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Body</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="createBroadcastModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Create Broadcast</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning alert-sm" role="alert">
+                    <i class='bx bxs-info-circle'></i> User will notify to this message as <b>System Info</b>.
+                </div>
+                <form id="broadcastForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Body</label>
+                        <textarea class="form-control" id="body" name="body"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark" id="btnSaveBroadcast">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            var table = $('#broadcastTable').DataTable({
+                pagingType: 'simple_numbers',
+                ajax: {
+                    url: '/Broadcast/GetAll',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'title' },
+                    { data: 'body' },
+                    { data: 'date' }
+                ]
+            });
+
+            $('#btnSaveBroadcast').click(function () {
+                var title = $('#title').val();
+                var body = $('#body').val();
+
+                $.ajax({
+                    url: '/Broadcast/CreateBroadcast',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ title: title, body: body }),
+                    success: function (response) {
+                        console.log('Broadcast created successfully:', response);
+                        $('#createBroadcastModal').modal('hide');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Message has been broadcast",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    },
+                    error: function () {
+                        console.error('Failed to create broadcast.');
+                        alert('Failed to create broadcast.');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -54,6 +54,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // added 24/6/24
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IBroadcastService, BroadcastService>();
 
 
 var app = builder.Build();
@@ -66,6 +67,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -73,9 +75,8 @@ app.UseRouting();
 
 // added 3/3/24
 app.UseAuthentication();
-// added 3/3/24
-
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
