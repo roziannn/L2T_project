@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container col-xxl-12 px-4 py-5 dashboard">
+    <div class="row">
+        <!-- Sidebar -->
+        @await Html.PartialAsync("_DashboardLayout")
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <div class="d-flex align-items-center">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="h5 breadcrumb-item fw-bold m-0"><a href="#" class="text-decoration-none text-dark">Dashboard</a></li>
+                            <li class="breadcrumb-item active"><a href="#" class="text-decoration-none text-dark">Master Product</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="input-group ms-auto" style="max-width: 300px;">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
+                    <button class="btn btn-dark" type="button" id="button-search"><i class='bx bx-search-alt'></i></button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end mb-3">
+                <button class="btn btn-dark me-2" type="button" id="button-create-product" data-bs-toggle="modal" data-bs-target="#createProductModal">
+                    Create Product
+                </button>
+            </div>
+
+            <!-- DataTable -->
+            <div class="col-lg-12">
+                <table id="mstProductTable" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>ProductName</th>
+                            <th>Category</th>
+                            <th>Desc</th>
+                            <th>NormalPrice</th>
+                            <th>Disc(%)</th>
+                            <th>Status</th>
+                            <th>CreatedAt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+@await Html.PartialAsync("_MstProductModal")
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+           
+
+            // DataTable initialization
+            var table = $('#mstProductTable').DataTable({
+                ajax: {
+                    url: '/MstProduct/GetAll',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'productName' },
+                    { data: 'productCategory' },
+                    { data: 'description' },
+                    { data: 'normalPrice' },
+                    { data: 'discount' },
+                    { data: 'isActive' },
+                    { data: 'createdAt' },
+                    // Add other columns as needed
+                ]
+            });
+
+            // Save Product button click handler
+            $('#btnSaveProduct').click(function () {
+                createProduct();
+            });
+
+            // Function to create a product via AJAX
+            function createProduct() {
+                var productName = $('#productName').val();
+                var productCategory = $('#productCategory').val();
+                var description = $('#description').val();
+                var normalPrice = $('#normalPrice').val();
+                var discount = $('#discount').val();
+                var stock = $('#stock').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/MstProduct/Create',
+                    contentType: 'application/json',
+                    headers: {
+                        // RequestVerificationToken: $('input:hidden[name="__RequestVerificationToken"]').val()
+                    },
+                    data: JSON.stringify({
+                        productName: productName,
+                        productCategory: productCategory,
+                        description: description,
+                        normalPrice: normalPrice,
+                        discount: discount,
+                        stock: stock
+                    }),
+                    success: function (response) {
+                        console.log('Product created successfully:', response);
+                        $('#createProductModal').modal('hide');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Product has been Added",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error creating product:', error);
+                        alert('Failed to create product.');
+                    }
+                });
+            }
+
+            // Format normalPriceDisplay input
+            var normalPriceDisplay = document.getElementById('normalPriceDisplay');
+            var normalPrice = document.getElementById('normalPrice');
+
+            normalPriceDisplay.addEventListener('input', function () {
+                var value = normalPriceDisplay.value.replace(/\D/g, '');
+                normalPrice.value = value;
+                normalPriceDisplay.value = new Intl.NumberFormat('id-ID').format(value);
+            });
+
+            // Validate discount input
+            var discountInput = document.getElementById('discount');
+
+            discountInput.addEventListener('input', function () {
+                if (discountInput.value > 100) {
+                    discountInput.value = 100;
+                }
+            });
+           
+        });
+    </script>
+}
+
+<style>
+    .breadcrumb-item a {
+        color: inherit;
+        text-decoration: none;
+    }
+</style>

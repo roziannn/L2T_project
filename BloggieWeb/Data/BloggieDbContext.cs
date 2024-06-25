@@ -15,6 +15,7 @@ namespace BloggieWeb.Data
         public DbSet<BlogPostLike> BlogPostLike { get; set;}
         public DbSet<BlogPostComment> BlogPostComment { get; set;}
         public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<Product> Products { get; set; }
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Notifications>()

@@ -5,46 +5,8 @@
 <div class="container col-xxl-12 px-4 py-5 dashboard">
     <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-            <div class="position-sticky py-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar active" aria-current="page" href="#">
-                            <i class='bx bxs-dashboard mx-2'></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar" href="#">
-                            <i class='bx bx-box mx-2'></i> Master Product
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar" href="#">
-                            <i class='bx bxs-news mx-2'></i> Master Article
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar" href="#">
-                            <i class='bx bx-user mx-2'></i> Master User
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar" href="#">
-                            <i class='bx bxs-report mx-2'></i>Master Reports
-                        </a>
-                    </li>
-                    <hr class="text-white" />
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-sidebar" href="#">
-                            <i class='bx bx-broadcast mx-2'></i> Broadcast
-                        </a>
-                    </li>
-                </ul>
+        @await Html.PartialAsync("_DashboardLayout")
 
-
-
-            </div>
-        </nav>
 
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -55,23 +17,67 @@
                     <button class="btn btn-dark" type="button" id="button-search"><i class='bx bx-search-alt'></i></button>
                 </div>
             </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">PRODUCT</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">PRODUCT</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">ARTICLE</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">USER</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">PRODUCT SELL</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm card-dashboard">
+                        <div class="card-body">
+                            <p class="text-muted fw-bold">COMPANY VALUE</p>
+                            <h4 class="card-text fw-bolder">90</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
+
     </div>
 </div>
 
 <style>
-    .dashboard {
-        margin-top: 30px;
-    }
-
-    .nav-link-sidebar {
-        color: white;
-        margin-bottom: 10px;
-    }
-
-    .nav-link-sidebar.active,
-    .nav-link-sidebar:hover {
-        color: white !important;
-        background-color: #343a40 !important; /* Ensure background color matches sidebar */
+   
+    .card-dashboard {
+    background-color: #ffffff !important;
+    border: none;
+    
     }
 </style>

@@ -55,6 +55,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 // added 24/6/24
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IBroadcastService, BroadcastService>();
+builder.Services.AddScoped<IMstProductService, MstProductService>();
 
 
 var app = builder.Build();

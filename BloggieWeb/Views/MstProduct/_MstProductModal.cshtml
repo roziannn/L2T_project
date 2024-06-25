@@ -1,0 +1,57 @@
+﻿<div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true"
+     data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createProductModalLabel">Create New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Form to create a new product -->
+                <form id="createProductForm">
+                    <div class="row">
+                        <div class="mb-3 col-lg-6 col-12">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="productName" name="productName" required>
+                        </div>
+                        <div class="mb-3 col-lg-6 col-12">
+                            <label for="productCategory" class="form-label">Product Category</label>
+                            <select class="form-control" id="productCategory" name="productCategory" required>
+                                <option value="" class="text-muted">--- Select Category ---</option>
+                                <option value="T-shirt">T-shirt</option>
+                                <option value="Hat">Hat</option>
+                                <option value="Notebook">Notebook</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row">
+
+                        <div class="mb-3 col-lg-6 col-12">
+                            <label for="normalPrice" class="form-label">Normal Price</label>
+                            <input type="text" class="form-control" id="normalPriceDisplay" required>
+                            <input type="hidden" id="normalPrice" name="normalPrice" required>
+                        </div>
+                        <div class="mb-3 col-lg-6 col-12">
+
+                            <label for="discount" class="form-label">Discount (%)</label>
+                            <input type="number" class="form-control" id="discount" name="discount" min="0" max="100" step="1">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stock Quantity</label>
+                        <input type="number" class="form-control" id="stock" name="stock" min="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSaveProduct">Save Product</button>
+            </div>
+        </div>
+    </div>
+</div>
