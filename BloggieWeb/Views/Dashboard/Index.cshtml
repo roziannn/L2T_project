@@ -1,13 +1,77 @@
 ﻿@{
-    Layout = "_DashboardLayout";
+    ViewData["Title"] = "Dashboard";
 }
 
+<div class="container col-xxl-12 px-4 py-5 dashboard">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+            <div class="position-sticky py-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar active" aria-current="page" href="#">
+                            <i class='bx bxs-dashboard mx-2'></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar" href="#">
+                            <i class='bx bx-box mx-2'></i> Master Product
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar" href="#">
+                            <i class='bx bxs-news mx-2'></i> Master Article
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar" href="#">
+                            <i class='bx bx-user mx-2'></i> Master User
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar" href="#">
+                            <i class='bx bxs-report mx-2'></i>Master Reports
+                        </a>
+                    </li>
+                    <hr class="text-white" />
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-sidebar" href="#">
+                            <i class='bx bx-broadcast mx-2'></i> Broadcast
+                        </a>
+                    </li>
+                </ul>
 
-<h1 class="mt-4">Dashboard</h1>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item active">Dashboard</li>
-</ol>
-<div class="row">
-    <!-- Dashboard cards and content -->
+
+
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h5 class="fw-bold mb-3 mb-md-0">Dashboard</h5>
+                <div class="input-group" style="width: 300px;">
+                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
+                    <button class="btn btn-dark" type="button" id="button-search"><i class='bx bx-search-alt'></i></button>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
 
+<style>
+    .dashboard {
+        margin-top: 30px;
+    }
+
+    .nav-link-sidebar {
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .nav-link-sidebar.active,
+    .nav-link-sidebar:hover {
+        color: white !important;
+        background-color: #343a40 !important; /* Ensure background color matches sidebar */
+    }
+</style>
