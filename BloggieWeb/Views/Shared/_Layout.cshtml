@@ -27,6 +27,7 @@
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href='https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
 
     @RenderSection("Styles", required: false)
     </head>
@@ -146,6 +147,41 @@
         @RenderBody()
     </main>
 
+    <style>
+
+        .form-label{
+            font-size: 14px;
+        }
+
+        thead th {
+            font-size: 15px;
+        }
+
+        tbody td {
+            font-size: 15px;
+        }
+
+        .breadcrumb-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        .topDt {
+            display: flex;
+            justify-content: end;
+            max-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .bottomDt {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+        }
+    </style>
+
 
     <footer class="text-footer py-3">
         <ul class="nav justify-content-center pb-3 mb-3">
@@ -164,6 +200,10 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+   
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

@@ -56,6 +56,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IBroadcastService, BroadcastService>();
 builder.Services.AddScoped<IMstProductService, MstProductService>();
+builder.Services.AddScoped<IMstArticleService, MstArticleService>();
 
 
 var app = builder.Build();

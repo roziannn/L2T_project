@@ -9,14 +9,32 @@ namespace BloggieWeb.Service
     public interface IMstProductService
     {
         Task<Product> Create(Product product);
-        Task<List<Product>> GetAll();
-
-
+        Task<Product> GetById(Guid id);
+        bool Update(Product model);
+        bool Archieve(Product model);
+        Task<List<ProductDto>> GetAll();
     }
 
     public class MstProductService(BloggieDbContext dbContext) : IMstProductService
     {
         private readonly BloggieDbContext _context = dbContext;
+
+        public bool Archieve(Product model)
+        {
+            var product = _context.Products.Find(model.Id);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.IsActive = false;
+
+            _context.Products.Update(product);
+            _context.SaveChanges();
+
+            return true;
+        }
 
         public async Task<Product> Create(Product p)
         {
@@ -40,13 +58,13 @@ namespace BloggieWeb.Service
             return data;
         }
 
-        public async Task<List<Product>> GetAll()
+        public async Task<List<ProductDto>> GetAll()
         {
             try
             {
                 var products = await _context.Products
-                .Where(n => n.IsActive == true)
-                .Select(n => new Product
+                //.Where(n => n.IsActive == true)
+                .Select(n => new ProductDto
                 {
                     Id = n.Id,
                     ProductName = n.ProductName,
@@ -54,6 +72,7 @@ namespace BloggieWeb.Service
                     Description = n.Description,
                     NormalPrice = n.NormalPrice,
                     Discount = n.Discount,
+                    DiscountedPrice = n.DiscountedPrice,
                     Stock = n.Stock,
                     IsActive = n.IsActive,
                     CreatedAt = n.CreatedAt,
@@ -69,5 +88,35 @@ namespace BloggieWeb.Service
                 throw new Exception("Failed to fetch notifications.", ex);
             }
         }
+
+        public async Task<Product> GetById(Guid id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            return product;
+        }
+
+       
+        public bool Update(Product model)
+        {
+            var product = _context.Products.Find(model.Id);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.ProductName = model.ProductName;
+            product.ProductCategory = model.ProductCategory;
+            product.Description = model.Description;
+            product.NormalPrice = model.NormalPrice;
+            product.Discount = model.Discount;
+            product.Stock = model.Stock;
+
+            _context.Products.Update(product);
+            _context.SaveChanges();
+
+            return true;
+        }
+
     }
 }

@@ -18,35 +18,52 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="input-group ms-auto" style="max-width: 300px;">
-                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
-                    <button class="btn btn-dark" type="button" id="button-search"><i class='bx bx-search-alt'></i></button>
+                <div class="d-flex mt-3 mt-md-0">
+                    <button class="btn btn-dark me-2" type="button" id="button-create-product" data-bs-toggle="modal" data-bs-target="#createProductModal">
+                        Create Product
+                    </button>
                 </div>
             </div>
 
-            <div class="d-flex justify-content-end mb-3">
-                <button class="btn btn-dark me-2" type="button" id="button-create-product" data-bs-toggle="modal" data-bs-target="#createProductModal">
-                    Create Product
-                </button>
+
+            @* <div class="d-flex justify-content-between mb-3">
+            <div>
+
+            <button class="btn btn-success me-2" type="button" id="button-create-product" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            Download
+            </button>
             </div>
+            <div>
+
+            <button class="btn btn-dark me-2" type="button" id="button-create-product" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            Create Product
+            </button>
+            </div>
+            </div> *@
 
             <!-- DataTable -->
             <div class="col-lg-12">
-                <table id="mstProductTable" class="table table-striped table-bordered" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ProductName</th>
-                            <th>Category</th>
-                            <th>Desc</th>
-                            <th>NormalPrice</th>
-                            <th>Disc(%)</th>
-                            <th>Status</th>
-                            <th>CreatedAt</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="table-responsive text-nowrap">
+
+                    <table id="mstProductTable" class="table table-striped table-hover table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                @* <th>No</th> *@
+                                <th>ProductName</th>
+                                <th>Category</th>
+                                <th>Desc</th>
+                                <th>NormalPrice</th>
+                                <th>Disc(%)</th>
+                                <th>TotalPrice</th>
+                                <th>Status</th>
+                                <th>CreatedAt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </main>
     </div>
@@ -57,7 +74,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-           
+
 
             // DataTable initialization
             var table = $('#mstProductTable').DataTable({
@@ -66,23 +83,114 @@
                     dataSrc: ''
                 },
                 columns: [
+                    {
+                        data: null,
+                        render: function (data, type, row) {
+                            if (data.isActive === true) {
+                                return `
+                            <button class="btn btn-warning btn-sm text-white edit-btn me-2" data-id="${row.id}" title="Edit">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm archieve-btn" data-id="${row.id}" title="Inactive Product">
+                                <i class='bx bx-x-circle'></i>
+                            </button>
+                        `;
+                            } else {
+                                return '';
+                            }
+                        }
+                    },
+                    // { data: null },
                     { data: 'productName' },
                     { data: 'productCategory' },
                     { data: 'description' },
                     { data: 'normalPrice' },
                     { data: 'discount' },
-                    { data: 'isActive' },
+                    { data: 'discountedPrice' },
+                    {
+                        data: 'isActive',
+                        render: function (data) {
+                            return data ? 'Active' : 'Inactive';
+                        }
+                    },
                     { data: 'createdAt' },
-                    // Add other columns as needed
-                ]
+                ],
+                fixedColumns: true,
+                columnDefs: [
+                    {
+                        targets: 8,
+                        render: function (data, type, row) {
+                            if (data) {
+                                var date = new Date(data);
+                                var day = String(date.getDate()).padStart(2, '0');
+                                var month = String(date.getMonth() + 1).padStart(2, '0');
+                                var year = date.getFullYear();
+                                return `${day}-${month}-${year}`;
+                            } else {
+                                return '';
+                            }
+                        }
+                    }
+                ],
+                order: [[7, 'asc']],
+                responsive: true,
+                destroy: true,
+                // dom: 'Bfrtip',
+                // dom: '<"topDt"f>rt<"bottomDt"lip>',
+                dom: '<"topDt"<"dt-buttons"B>f>rt<"bottomDt"lip>',
+                buttons: [
+                    'csv', 'excel', 'pdf', 'print'
+                ],
+                scrollY: '50vh',
+                scrollCollapse: true,
+                rowCallback: function (row, data, index) {
+                    // Add the index (starting from 1) to the first column
+                   // $('td:eq(1)', row).html(index + 1);
+                },
             });
 
-            // Save Product button click handler
+            //Edit data
+            $('#mstProductTable tbody').on('click', '.edit-btn', function () {
+                var productId = $(this).data('id');
+                $('#createProductModalLabel').text("Edit Product");
+
+                console.log(productId);
+
+                $.ajax({
+                    url: '/MstProduct/product-' + productId, // Ganti dengan URL endpoint yang sesuai
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+
+                        $('#createProductModal #productId').val(data.id);
+                        $('#createProductModal #productName').val(data.productName);
+                        $('#createProductModal #productCategory').val(data.productCategory);
+                        $('#createProductModal #description').val(data.description);
+                        $('#createProductModal #normalPriceDisplay').val(data.normalPrice);
+                        $('#createProductModal #discount').val(data.discount);
+                        $('#createProductModal #discountedPrice').val(data.discountedPrice);
+                        $('#createProductModal #stock').val(data.stock);
+
+                        $('#createProductModal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+
+            // Save Product handler
             $('#btnSaveProduct').click(function () {
-                createProduct();
+                var productId = $('#productId').val(); // Ambil ID produk jika ada
+                if (productId) {
+                    updateProduct(productId);
+                } else {
+                    createProduct();
+                }
             });
 
-            // Function to create a product via AJAX
+            // Function to create
             function createProduct() {
                 var productName = $('#productName').val();
                 var productCategory = $('#productCategory').val();
@@ -127,6 +235,104 @@
                 });
             }
 
+            // Function to update
+            function updateProduct(productId) {
+
+                var productId = $('#productId').val();
+                var productName = $('#productName').val();
+                var productCategory = $('#productCategory').val();
+                var description = $('#description').val();
+                var normalPrice = $('#normalPriceDisplay').val();
+                var discount = $('#discount').val();
+                var stock = $('#stock').val();
+
+                var data = {
+                    id: productId,
+                    productName: productName,
+                    productCategory: productCategory,
+                    description: description,
+                    normalPrice: normalPrice,
+                    discount: discount,
+                    stock: stock,
+                };
+
+
+                $.ajax({
+                    url: '/MstProduct/Update',
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (response) {
+
+                        $('#createProductModal').modal('hide');
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Product has been Saved",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                        // refreshDataTable();
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("data", data);
+                        console.error('An error occurred during update:', error);
+                    }
+                });
+            }
+
+            // Archive data
+            $('#mstProductTable tbody').on('click', '.archieve-btn', function () {
+                var productId = $(this).data('id');
+                console.log(productId);
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "Do you want to archive this product?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, archive it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/MstProduct/Archieve',
+                            type: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ id: productId }),
+                            success: function (data) {
+                                Swal.fire(
+                                    'Archived!',
+                                    'The product has been archived.',
+                                    'success'
+                                );
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 1500);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire(
+                                    'Error!',
+                                    'An error occurred while archiving the product.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+
+            $('#createProductModal').on('hidden.bs.modal', function () {
+                $('#createProductForm')[0].reset();
+                $('#createProductModalLabel').text("Create New Product");
+            });
+
             // Format normalPriceDisplay input
             var normalPriceDisplay = document.getElementById('normalPriceDisplay');
             var normalPrice = document.getElementById('normalPrice');
@@ -145,14 +351,12 @@
                     discountInput.value = 100;
                 }
             });
-           
+
+
         });
     </script>
 }
 
 <style>
-    .breadcrumb-item a {
-        color: inherit;
-        text-decoration: none;
-    }
+
 </style>
