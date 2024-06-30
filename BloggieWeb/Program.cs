@@ -58,6 +58,7 @@ builder.Services.AddScoped<IBroadcastService, BroadcastService>();
 builder.Services.AddScoped<IMstProductService, MstProductService>();
 builder.Services.AddScoped<IMstArticleService, MstArticleService>();
 builder.Services.AddScoped<IMstUserService, MstUserService>();
+builder.Services.AddScoped<IShopService, ShopService>();
 
 
 var app = builder.Build();

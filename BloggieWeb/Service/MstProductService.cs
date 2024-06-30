@@ -79,6 +79,7 @@ namespace BloggieWeb.Service
                     IsActive = n.IsActive,
                     CreatedAt = n.CreatedAt,
                     ImageUrl = n.ImageUrl,
+                    UrlHandle = n.UrlHandle,
                 })
                 .ToListAsync();
 
@@ -115,6 +116,7 @@ namespace BloggieWeb.Service
             product.Discount = model.Discount;
             product.Stock = model.Stock;
             product.ImageUrl = model.ImageUrl;
+            product.UrlHandle = model.UrlHandle;
 
             _context.Products.Update(product);
             _context.SaveChanges();

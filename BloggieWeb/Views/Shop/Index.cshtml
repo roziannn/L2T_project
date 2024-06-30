@@ -1,62 +1,116 @@
 ﻿@{
-    ViewData["Title"] = "Shop";
+    ViewData["Title"] = "All Product";
 }
 
-<div class="container col-xxl-12 px-4 pt-5">
-    <div class="row align-items-center g-5 pt-5">
-        <div class="col-12 col-lg-12 text-center">
-            <h1 class="display-5 fw-bold lh-1 mb-1">
-                TW SHOP
-            </h1>
-        </div>
-
-        <div class="col-12 col-lg-12 text-center">
-            <h5 class="fw-medium lh-1 mb-5">
-                New Arrivals Item
-            </h5>
-            <div class="row mb-3">
-                <div class="col-lg-4 col-md-3">
-                    <div class="card product rounded-0">
-                        <div class="card-body">
-                            <img src="~/img/products/product1.jpg" class="img-fluid" />
-                        </div>
-                        <div class="card-footer bg-white border-0">
-                            <div class="row">
-                            <span class="product-title mb-2">Hoodie Java</span>
-                            <span class="product-price">IDR 500.000</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <div class="card product rounded-0">
-                        <div class="card-body">
-                            <img src="~/img/products/product1.jpg" class="img-fluid" />
-                        </div>
-                        <div class="card-footer bg-white border-0">
-                            <div class="row">
-                                <span class="product-title mb-2">Hoodie Java</span>
-                                <span class="product-price">IDR 500.000</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-3">
-                    <div class="card product rounded-0">
-                        <div class="card-body">
-                            <img src="~/img/products/product1.jpg" class="img-fluid" />
-                        </div>
-                        <div class="card-footer bg-white border-0">
-                            <div class="row">
-                                <span class="product-title mb-2">Hoodie Java</span>
-                                <span class="product-price">IDR 500.000</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="container col-xxl-12 px-4 py-5">
+    <div class="row align-items-center g-5 py-5">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3">
+            <h5 class="fw-bold mb-3 mb-md-0">SHOP PRODUCT</h5>
+            <div class="input-group" style="width: 300px;">
+                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="button-search">
+                <button class="btn btn-dark" type="button" id="button-search"><i class='bx bx-search-alt'></i></button>
             </div>
-            <a class="btn btn-outline-dark rounded-0" asp-area="" asp-controller="Shop" asp-action="All">VIEW ALL PRODUCTS</a>
         </div>
 
+        <div class="col-12 col-lg-12">
+            @await Html.PartialAsync("_FilterProduct")
+
+            <div class="row text-center mb-5" id="productContainer">
+                <div id="loadingSpinner" class="spinner-border text-primary" role="status" style="display: none;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Load products when the page loads
+            loadProducts();
+
+            function loadProducts() {
+
+                var productContainer = $('#productContainer');
+                var loadingSpinner = $('#loadingSpinner');
+
+                loadingSpinner.show(); // Tampilkan spinner saat memuat data
+
+                $.ajax({
+                    url: '/shop/getAll',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var productContainer = $('#productContainer');
+                        productContainer.empty(); // Clear existing products
+
+                        if (data && data.length > 0) {
+                            data.forEach(function (product) {
+                                
+                                var productCard = `
+                                            <div class="product col-lg-3 col-md-3">
+                                                <div class="card product border-0" data-urlHandle="${product.urlHandle}">
+                                                    <div class="card-body mb-2">
+                                                        <img src="${product.imageUrl}" alt="${product.productName}" class="img-fluid">
+                                                    </div>
+                                                        <div class="card-footer bg-white mb-5 border-0">
+                                                        <div class="row">
+                                                            <span class="product-title mb-2">${product.productName}</span>
+                                                             <span class="product-price">${formatRupiah(product.discountedPrice)}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                productContainer.append(productCard);
+                            });
+                            $('.card').click(function () {
+                                var urlHandle = $(this).data('urlhandle');
+                                window.location.href = `/shop/product/learn2tech-${urlHandle}`;
+                            });
+                        } else {
+                            productContainer.append('<p>No products found</p>');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Failed to load products:', error);
+                        $('#productContainer').append('<p>Failed to load products</p>');
+                    },
+                    complete: function () {
+                        loadingSpinner.hide();
+                    }
+                });
+            }
+
+            function formatRupiah(amount) {
+                return amount.toLocaleString('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).replace('IDR', '').trim();
+            }
+
+
+
+        });
+    </script>
+}
+
+<style>
+    .product-title{
+        font-weight: 500;
+    }
+
+    .product-price{
+        font-weight:500;
+        color: #7a7878;
+    }
+
+    .card {
+        cursor: pointer;
+    }
+
+</style>

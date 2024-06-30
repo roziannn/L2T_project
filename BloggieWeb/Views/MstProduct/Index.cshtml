@@ -78,8 +78,12 @@
             const featuredUploadElement = document.getElementById('imageUpload');
             const featuredImageUrlElement = document.getElementById('imageUrl');
             const featuredImageDisplayElement = document.getElementById('imageDisplay');
+            const loadingSpinnerElement = document.getElementById('loadingSpinner');
 
             async function uploadFeaturedImage(e) {
+                loadingSpinnerElement.style.display = 'block';
+                featuredImageDisplayElement.style.display = 'none';
+
                 let data = new FormData();
                 data.append('file', e.target.files[0]);
 
@@ -94,6 +98,8 @@
                         featuredImageUrlElement.value = result.link;
                         featuredImageDisplayElement.src = result.link;
                         featuredImageDisplayElement.style.display = 'block';
+                    }).finally(() => {
+                        loadingSpinnerElement.style.display = 'none';
                     });
             }
 
@@ -208,7 +214,8 @@
                         $('#createProductModal #discount').val(data.discount);
                         $('#createProductModal #discountedPrice').val(data.discountedPrice);
                         $('#createProductModal #stock').val(data.stock);
-                        $('#createProductModal #imageUrl').val(data.imageUrl); 
+                        $('#createProductModal #imageUrl').val(data.imageUrl);
+                        $('#createProductModal #urlHandle').val(data.urlHandle);
                         $('#imageDisplay').attr('src', data.imageUrl).show();  // Add this line
 
                         $('#createProductModal').modal('show');
@@ -289,6 +296,7 @@
                 var discount = $('#discount').val();
                 var stock = $('#stock').val();
                 var imageUrl = $('#imageUrl').val();
+                var urlHandle = $('#urlHandle').val();
 
                 var data = {
                     id: productId,
@@ -298,7 +306,8 @@
                     normalPrice: normalPrice,
                     discount: discount,
                     stock: stock,
-                    imageUrl: imageUrl
+                    imageUrl: imageUrl,
+                    urlHandle: urlHandle
                 };
 
 
@@ -376,6 +385,9 @@
             $('#createProductModal').on('hidden.bs.modal', function () {
                 $('#createProductForm')[0].reset();
                 $('#createProductModalLabel').text("Create New Product");
+                $('#createProductModal #productId').val('');
+                $('#createProductModal #imageUrl').val('');
+                $('#imageDisplay').attr('src', '').hide();
             });
 
             // Format normalPriceDisplay input
