@@ -51,6 +51,8 @@ namespace BloggieWeb.Service
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 IsActive = true,
+                ImageUrl = p.ImageUrl,
+                UrlHandle = p.UrlHandle,
             };
 
             _context.Products.Add(data);
@@ -76,6 +78,7 @@ namespace BloggieWeb.Service
                     Stock = n.Stock,
                     IsActive = n.IsActive,
                     CreatedAt = n.CreatedAt,
+                    ImageUrl = n.ImageUrl,
                 })
                 .ToListAsync();
 
@@ -111,6 +114,7 @@ namespace BloggieWeb.Service
             product.NormalPrice = model.NormalPrice;
             product.Discount = model.Discount;
             product.Stock = model.Stock;
+            product.ImageUrl = model.ImageUrl;
 
             _context.Products.Update(product);
             _context.SaveChanges();

@@ -77,7 +77,26 @@
                     { data: 'title' },
                     { data: 'body' },
                     { data: 'date' }
-                ]
+                ],
+                fixedColumns: true,
+                columnDefs: [
+                    {
+                        targets: 2,
+                        render: function (data, type, row) {
+                            if (data) {
+                                var date = new Date(data);
+                                var day = String(date.getDate()).padStart(2, '0');
+                                var month = String(date.getMonth() + 1).padStart(2, '0');
+                                var year = date.getFullYear();
+                                return `${day}-${month}-${year}`;
+                            } else {
+                                return '';
+                            }
+                        }
+                    }
+                ],
+                responsive: true,
+                destroy: true,
             });
 
             $('#btnSaveBroadcast').click(function () {

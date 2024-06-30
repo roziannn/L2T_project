@@ -74,7 +74,44 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            // Image product initialization
+            const featuredUploadElement = document.getElementById('imageUpload');
+            const featuredImageUrlElement = document.getElementById('imageUrl');
+            const featuredImageDisplayElement = document.getElementById('imageDisplay');
 
+            async function uploadFeaturedImage(e) {
+                let data = new FormData();
+                data.append('file', e.target.files[0]);
+
+                await fetch('/api/images', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': '*/*',
+                    },
+                    body: data
+                }).then(response => response.json())
+                    .then(result => {
+                        featuredImageUrlElement.value = result.link;
+                        featuredImageDisplayElement.src = result.link;
+                        featuredImageDisplayElement.style.display = 'block';
+                    });
+            }
+
+            featuredUploadElement.addEventListener('change', uploadFeaturedImage);
+
+            // url handler initialization
+            document.getElementById('productName').addEventListener('input', function () {
+                var productName = this.value;
+                var urlHandle = generateUrlHandle(productName);
+                document.getElementById('urlHandle').value = urlHandle;
+            });
+
+            function generateUrlHandle(str) {
+                return str.toLowerCase()
+                    .replace(/[^a-z0-9\s-]/g, '') 
+                    .replace(/\s+/g, '-')         
+                    .replace(/-+/g, '-');         
+            }
 
             // DataTable initialization
             var table = $('#mstProductTable').DataTable({
@@ -171,6 +208,8 @@
                         $('#createProductModal #discount').val(data.discount);
                         $('#createProductModal #discountedPrice').val(data.discountedPrice);
                         $('#createProductModal #stock').val(data.stock);
+                        $('#createProductModal #imageUrl').val(data.imageUrl); 
+                        $('#imageDisplay').attr('src', data.imageUrl).show();  // Add this line
 
                         $('#createProductModal').modal('show');
                     },
@@ -198,6 +237,8 @@
                 var normalPrice = $('#normalPrice').val();
                 var discount = $('#discount').val();
                 var stock = $('#stock').val();
+                var imageUrl = $('#imageUrl').val();
+                var urlHandle = $('#urlHandle').val();
 
                 $.ajax({
                     type: 'POST',
@@ -212,7 +253,9 @@
                         description: description,
                         normalPrice: normalPrice,
                         discount: discount,
-                        stock: stock
+                        stock: stock,
+                        imageUrl: imageUrl,
+                        urlHandle: urlHandle,
                     }),
                     success: function (response) {
                         console.log('Product created successfully:', response);
@@ -245,6 +288,7 @@
                 var normalPrice = $('#normalPriceDisplay').val();
                 var discount = $('#discount').val();
                 var stock = $('#stock').val();
+                var imageUrl = $('#imageUrl').val();
 
                 var data = {
                     id: productId,
@@ -254,6 +298,7 @@
                     normalPrice: normalPrice,
                     discount: discount,
                     stock: stock,
+                    imageUrl: imageUrl
                 };
 
 

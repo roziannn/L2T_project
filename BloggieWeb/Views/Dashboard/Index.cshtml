@@ -2,11 +2,13 @@
     ViewData["Title"] = "Dashboard";
 }
 
+<!-- Include ApexCharts JS -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 <div class="container col-xxl-12 px-4 py-5 dashboard">
     <div class="row">
         <!-- Sidebar -->
         @await Html.PartialAsync("_DashboardLayout")
-
 
         <!-- Main Content -->
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -18,66 +20,69 @@
                 </div>
             </div>
 
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">PRODUCT</p>
-                            <h4 class="card-text fw-bolder">90</h4>
+            <!-- Charts Section -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Chart 1: Product Status -->
+                        <div class="col-lg-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-header mb-0 text-center">
+                                        Product by Category
+                                    </h6>
+                                    <div class="align-items-center">
+                                        <div id="ChartMaster1"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">PRODUCT</p>
-                            <h4 class="card-text fw-bolder">90</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">ARTICLE</p>
-                            <h4 class="card-text fw-bolder">90</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">USER</p>
-                            <h4 class="card-text fw-bolder">90</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">PRODUCT SELL</p>
-                            <h4 class="card-text fw-bolder">90</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card shadow-sm card-dashboard">
-                        <div class="card-body">
-                            <p class="text-muted fw-bold">COMPANY VALUE</p>
-                            <h4 class="card-text fw-bolder">90</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
 
+                        <!-- Chart 2: User by Role -->
+                        <div class="col-lg-6 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-header mb-0 text-center">
+                                        Product by Status
+                                    </h6>
+                                    <div class="align-items-center">
+                                        <div id="ChartMaster2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 </div>
+<script>
+    // APEX CHART 1: Line Chart for products
+    var options1 = {
+        chart: {
+            type: 'line',
+            height: 250,
+            width: '100%'
+        },
+        series: JSON.parse('@Html.Raw(ViewBag.SeriesData)')
+    };
 
-<style>
-   
-    .card-dashboard {
-    background-color: #ffffff !important;
-    border: none;
-    
-    }
-</style>
+    var chart1 = new ApexCharts(document.querySelector("#ChartMaster1"), options1);
+    chart1.render();
+
+    // APEX CHART 2: Line Chart for user roles
+    var options2 = {
+        chart: {
+            type: 'line',
+            height: 250,
+            width: '100%'
+        },
+        series: JSON.parse('@Html.Raw(ViewBag.SeriesData2)')
+    };
+
+    var chart2 = new ApexCharts(document.querySelector("#ChartMaster2"), options2);
+    chart2.render();
+
+</script>
+

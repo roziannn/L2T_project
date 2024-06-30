@@ -34,7 +34,8 @@ namespace BloggieWeb.Controllers
 					Email = registerViewModel.Email
 				};
 
-				var identityResult = await userManager.CreateAsync(identityUser, registerViewModel.Password); // create account
+				var identityResult = await userManager.CreateAsync(identityUser, 
+                    registerViewModel.Password); // create account
 
 				if (identityResult.Succeeded)
 				{

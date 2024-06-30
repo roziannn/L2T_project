@@ -14,8 +14,11 @@ namespace BloggieWeb.Data
         public DbSet<Tag> Tags  { get; set; }
         public DbSet<BlogPostLike> BlogPostLike { get; set;}
         public DbSet<BlogPostComment> BlogPostComment { get; set;}
+        //public DbSet<BlogPostTag> BlogPostTag { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<UserRoles> UserRoles { get; set; } //added
+        public DbSet<Roles> Roles { get; set; } //added
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Notifications>()
