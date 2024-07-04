@@ -35,7 +35,7 @@
 
 <body class="mb-0">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark fixed-top bg-white">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark fixed-top bg-white border-bottom">
             <div class="container">
                 <a class="navbar-brand text-dark" asp-area="" asp-controller="Home" asp-action="Index">LEARN2TECH</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -83,7 +83,7 @@
                         @if (signInManager.IsSignedIn(User))
                         {
                             <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="Index"><i class='bx bx-bell bx-tada bx-sm'></i></a>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Notification" asp-action="Index">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
                                 <i class='bx bx-cart bx-sm'></i>
                             </a>
 
@@ -95,6 +95,10 @@
 
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Profile"
+                                           asp-action="Index">Profile</a>
+                                    </li>
                                     <li>
                                         <a class="dropdown-item text-dark" asp-area="" asp-controller="Dashboard"
                                            asp-action="Index">Dashboard</a>
@@ -151,7 +155,24 @@
     </main>
 
     <style>
+        .btn,
+        input.form-control,
+        input.form-check-input,
+        select.form-select {
+            box-shadow: none !important; 
+            border-radius: 0;
+        }
 
+        .form-check-input:checked
+       {
+            background-color: #000;
+            border-color: #000;
+        }
+
+        .nav-link.nav-link-tab {
+            color: #000;
+        }
+       
         .form-label{
             font-size: 14px;
         }
@@ -183,6 +204,7 @@
             align-items: center;
             margin: 10px 0;
         }
+
     </style>
 
 

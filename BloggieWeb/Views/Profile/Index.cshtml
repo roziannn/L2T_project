@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container col-xxl-12 px-lg-4 px-2 py-5 dashboard">
+    <div class="row">
+        <!-- Sidebar -->
+        @await Html.PartialAsync("_DashboardLayout")
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex flex-column flex-md-row  align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h5 class="fw-bold mb-3 mb-md-0">PROFILE</h5>
+
+            </div>
+            <section class="content">
+                <div class="nav-align-top">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link nav-link-tab active rounded-0" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-home" aria-controls="navs-top-home" aria-selected="true">BIO</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link nav-link-tab rounded-0" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-profile" aria-controls="navs-top-profile" aria-selected="false">ADDRESS</button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link nav-link-tab rounded-0" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-messages" aria-controls="navs-top-messages" aria-selected="false">CHANGE PASSWORD</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-4">
+                        @await Html.PartialAsync("_TabBio")
+                        @await Html.PartialAsync("_TabAddress")
+                        @await Html.PartialAsync("_TabChangePassword")
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function getUserId() {
+                $.ajax({
+                    url: '/Profile/GetUserId',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log('User Id:', data.id);
+                        $('#emailAddress').val(data.email);
+                        $('#fullName').val(data.userName);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            getUserId();
+
+            $('#fullName, #birthdate, #phone').on('keyup change', function () {
+
+                var input = $(this);
+                var warning = input.closest('.row').find('.text-danger');
+
+                input.removeClass('is-invalid');
+                warning.addClass('d-none').text('');
+            });
+
+          
+        });
+
+
+        
+
+        function validateForm() {
+            var isValid = true;
+
+            var fieldsToValidate = [
+                { id: 'fullName', warning: 'Full Name is required.' },
+                { id: 'birthdate', warning: 'Birth Date is required.' },
+                { id: 'phone', warning: 'Phone is required.' }
+            ];
+
+            fieldsToValidate.forEach(function (field) {
+                var input = $('#' + field.id);
+                var warning = input.next('small');
+
+                if (!input.val()) {
+                    input.addClass('is-invalid');
+                    warning.removeClass('d-none').text(field.warning);
+                    isValid = false;
+                } else {
+                    input.removeClass('is-invalid');
+                    warning.addClass('d-none').text('');
+                }
+            });
+            var genderChecked = $('input[name="gender"]:checked').length > 0;
+            var genderWarning = $('input[name="gender"]').closest('.form-check').siblings('small');
+
+            if (!genderChecked) {
+                genderWarning.removeClass('d-none').text('Gender is required.');
+                isValid = false;
+            } else {
+                genderWarning.addClass('d-none').text('');
+            }
+        }
+    </script>
+}

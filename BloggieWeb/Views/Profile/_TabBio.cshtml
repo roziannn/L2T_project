@@ -1,0 +1,72 @@
+﻿<div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
+    <form id="profileForm">
+        <div class="row mb-3">
+            <label for="emailAddress" class="col-sm-2 col-form-label">Email Address</label>
+            <div class="col-sm-10 justify-content-end">
+                <input type="text" class="form-control" id="emailAddress" value="" placeholder="1234 Main St" readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="fullName" placeholder="Full Name">
+                <small class="form-text text-danger d-none">Full Name is required.</small>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="birthdate" class="col-sm-2 col-form-label">Birth Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="birthdate" placeholder="Select Birth Date">
+                <small class="form-text text-danger d-none">Birth Date is required.</small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">Gender</label>
+            <div class="col-sm-10">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+                    <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                    <label class="form-check-label" for="female">Female</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+                    <label class="form-check-label" for="other">Other</label>
+                </div>
+                <small class="form-text text-danger d-none">Gender is required.</small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="phone" placeholder="Phone">
+                <small class="form-text text-danger d-none">Phone is required.</small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-2">Newsletter</div>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="newsletterSubscription">
+                    <label class="form-check-label" for="newsletterSubscription">
+                        Subscribe to Newsletter
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-10 offset-sm-2">
+                <button class="btn btn-md btn-dark px-5 rounded-0 flex-shrink-0 shadow-none" type="button" onclick="validateForm()">
+                    Save Changes
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+

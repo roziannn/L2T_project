@@ -7,6 +7,7 @@ namespace BloggieWeb.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly AuthDbContext authDbContext;
+        private readonly DbContext context;
 
         public UserRepository(AuthDbContext authDbContext)
         {
@@ -26,6 +27,11 @@ namespace BloggieWeb.Repositories
 
           return users;
         }
+
+        //public async Task<IdentityUser> GetById(string id)
+        //{
+        //    return await authDbContext.Users.FindAsync(id);
+        //}
     }
 }
     
