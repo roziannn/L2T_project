@@ -48,8 +48,10 @@
                     dataType: 'json',
                     success: function (data) {
                         console.log('User Id:', data.id);
+                        $('#userNewId').val(data.id);
                         $('#emailAddress').val(data.email);
                         $('#fullName').val(data.userName);
+                        $('#phone').val(data.phoneNumber);
                     },
                     error: function (error) {
                         console.error('Error:', error);
@@ -70,9 +72,6 @@
 
           
         });
-
-
-        
 
         function validateForm() {
             var isValid = true;
@@ -106,5 +105,33 @@
                 genderWarning.addClass('d-none').text('');
             }
         }
+
+        $('#SaveBioBtn').click(function () {
+            var userId = $('#userNewId').val(); // Ambil ID produk jika ada
+            var profileData = {
+                UserNewId: userId,
+                FullName: $('#fullName').val(),
+                BirthDate: $('#birthdate').val(),
+                Gender: $('input[name="gender"]:checked').val(),
+                PhoneNumber: $('#phone').val(),
+                IsSuscribed: $('#newsletterSubscription').prop('checked')
+            };
+
+            $.ajax({
+                url: '/Profile/Update',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(profileData),
+                success: function (response) {
+                    console.log('Success:', response);
+                    // Handle success, e.g., show success message
+                },
+                error: function (error) {
+                    console.error('Error:', error.responseJSON.message);
+                    // Handle error, e.g., show error message
+                }
+            });
+        });
+
     </script>
 }

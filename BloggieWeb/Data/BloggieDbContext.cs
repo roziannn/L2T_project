@@ -19,7 +19,7 @@ namespace BloggieWeb.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; } //added
         public DbSet<Roles> Roles { get; set; } //added
-        public DbSet<Profile> Profiles { get; set; } //added
+        public DbSet<Profile> Profile { get; set; } //added
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Notifications>()

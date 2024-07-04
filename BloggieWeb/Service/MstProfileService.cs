@@ -2,6 +2,7 @@
 using BloggieWeb.Models.Domain;
 using BloggieWeb.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace BloggieWeb.Service
 {
@@ -11,43 +12,61 @@ namespace BloggieWeb.Service
     }
 
 
-    public class MstProfileService(BloggieDbContext dbContext) : IMstProfileService
+    public class MstProfileService(BloggieDbContext dbContext, AuthDbContext authDbContext) : IMstProfileService
     {
         private readonly BloggieDbContext _context = dbContext;
+        private readonly AuthDbContext _authDbContext = authDbContext;
+
 
         public bool Update(Profile model)
         {
-            //var product = _context.Products.Find(model.Id);
+            var user = _authDbContext.Users.FirstOrDefault(u => u.Id == model.UserNewId);
 
-            //if (product == null)
-            //{
-            //    return false;
-            //}
-
-            //product.ProductName = model.ProductName;
-            //product.ProductCategory = model.ProductCategory;
-            //product.Description = model.Description;
-            //product.NormalPrice = model.NormalPrice;
-            //product.Discount = model.Discount;
-            //product.Stock = model.Stock;
-            //product.ImageUrl = model.ImageUrl;
-            //product.UrlHandle = model.UrlHandle;
-
-            var profile = _context.Profiles.Find(model.UserNewId);
+            var profile = _context.Profile.FirstOrDefault(p => p.UserNewId == model.UserNewId);
 
             if (profile == null)
             {
-                return false;
+                // Jika profil belum ada, buat profil baru
+                profile = new Profile
+                {
+                    UserNewId = model.UserNewId,
+                    FullName = model.FullName,
+                    PhoneNumber = model.PhoneNumber,
+                    BirthDate = model.BirthDate,
+                    Gender = model.Gender,
+                    Email = user.Email,
+                    IsSuscribed = model.IsSuscribed,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
+                };
+
+                _context.Profile.Add(profile); // Tambahkan profil baru ke konteks
+            }
+            else
+            {
+                // Jika profil sudah ada, lakukan update
+                profile.Email = user.Email;
+                profile.FullName = model.FullName;
+                profile.PhoneNumber = model.PhoneNumber;
+                profile.Gender = model.Gender;
+                profile.BirthDate = model.BirthDate;
+                profile.IsSuscribed = model.IsSuscribed;
+                profile.UpdatedAt = DateTime.Now;
+
+                _context.Profile.Update(profile); // Update profil dalam konteks
             }
 
-            profile.Email = model.Email;
-            profile.FullName = model.FullName;
-            profile.PhoneNumber = model.PhoneNumber;
-
-            _context.Profiles.Update(profile);
-            _context.SaveChanges();
-
-            return true;
+            try
+            {
+                _context.SaveChanges(); // Simpan perubahan ke basis data
+                return true; // Operasi berhasil
+            }
+            catch (Exception ex)
+            {
+                // Tangani kesalahan jika ada
+                Console.WriteLine($"Error updating profile: {ex.Message}");
+                return false; // Operasi gagal
+            }
         }
     }
 }

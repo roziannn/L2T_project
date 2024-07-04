@@ -4,6 +4,7 @@
             <label for="emailAddress" class="col-sm-2 col-form-label">Email Address</label>
             <div class="col-sm-10 justify-content-end">
                 <input type="text" class="form-control" id="emailAddress" value="" placeholder="1234 Main St" readonly>
+                <input type="text" class="form-control" id="userNewId" value="" placeholder="1234 Main St" readonly>
             </div>
         </div>
         <div class="row mb-3">
@@ -62,11 +63,11 @@
 
         <div class="row">
             <div class="col-sm-10 offset-sm-2">
-                <button class="btn btn-md btn-dark px-5 rounded-0 flex-shrink-0 shadow-none" type="button" onclick="validateForm()">
+                <button class="btn btn-md btn-dark px-5 rounded-0 flex-shrink-0 shadow-none"
+                id="SaveBioBtn" type="button" onclick="validateForm()">
                     Save Changes
                 </button>
             </div>
         </div>
     </form>
 </div>
-
