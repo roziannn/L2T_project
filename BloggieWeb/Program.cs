@@ -60,6 +60,7 @@ builder.Services.AddScoped<IMstArticleService, MstArticleService>();
 builder.Services.AddScoped<IMstUserService, MstUserService>();
 builder.Services.AddScoped<IMstProfileService, MstProfileService>();
 builder.Services.AddScoped<IShopService, ShopService>();
+builder.Services.AddScoped<ICartItemsService, CartItemsService>();
 
 //added 4 juli 2024
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>()

@@ -2,31 +2,125 @@
     ViewData["Title"] = "CART";
 }
 
-
 <div class="container col-xxl-12 px-4 py-5">
     <div class="row align-items-center g-5 py-5">
         <div class="col-lg-12">
             <div class="d-flex">
-                <h5 class="fw-bold">MY CART</h5>
-                
+                <h4 class="fw-bold">MY CART</h4>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-12">
-            <table id="broadcastTable" class="table table-striped table-bordered" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Body</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="col-lg-8" id="cartItemsContainer">
+            <!-- Cart items will be dynamically inserted here -->
+        </div>
+        <div class="col-lg-4" id="summaryContainer">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Order Summary</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Items
+                            <span id="totalItems">0</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Price
+                            <span id="totalPrice">$0.00</span>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary mt-3 p-2 w-100 btn-dark">Proceed to Checkout</button>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Cart/GetAllCartItems',
+                type: 'GET',
+                success: function (response) {
+                    if (response && response.length > 0) {
+                        var cartItemsContainer = $('#cartItemsContainer');
+                        cartItemsContainer.empty();
+
+                        var totalItems = 0;
+                        var totalPrice = 0;
+
+                        response.forEach(function (item) {
+                            var subtotal = item.quantity * item.price;
+                            var cartItemHtml = `
+                                        <div class="col-lg-12 mb-3 border-bottom position-relative">
+                                            <div class="row no-gutters p-3">
+                                                <div class="col-12 col-lg-4">
+                                                    <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
+                                                </div>
+                                                <div class="col-12 col-lg-8">
+                                                    <div class="card-body">
+                                                        <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                            <p class="m-0">Category: ${item.productCategory}</p>
+                                                            <p class="m-0">QTY: ${item.quantity}</p>
+                                                            <p class="m-0 fw-bold mb-4">Rp${item.price}</p>
+                                                            <h6 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> Rp${subtotal}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
+                                        </div>
+                                    `;
+                            cartItemsContainer.append(cartItemHtml);
+
+                            // Calculate total items and total price
+                            totalItems += item.quantity;
+                            totalPrice += (item.quantity * item.price);
+                        });
+
+                        $('#totalItems').text(totalItems);
+                        $('#totalPrice').text('$' + totalPrice.toFixed(2));
+
+                        // Add delete button functionality
+                        $('.delete-item').on('click', function () {
+                            var itemId = $(this).data('id');
+                            Swal.fire({
+                                title: 'Are you sure?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#000',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, delete it!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        url: '/Cart/DeleteItem',
+                                        type: 'POST',
+                                        data: { id: itemId },
+                                        success: function (response) {
+                                            if (response.success) {
+                                                location.reload();
+                                            } else {
+                                                console.error(response.message);
+                                            }
+                                        },
+                                        error: function () {
+                                            console.error('Failed to delete cart item.');
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    } else {
+                        $('#cartItemsContainer').html('<p>No items in the cart.</p>');
+                    }
+                },
+                error: function () {
+                    console.error('Failed to fetch cart items.');
+                    $('#cartItemsContainer').html('<p>Failed to fetch cart items.</p>');
+                }
+            });
+        });
+    </script>
+}

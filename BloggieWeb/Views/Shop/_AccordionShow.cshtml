@@ -1,0 +1,93 @@
+﻿
+<section class="py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="accordion" id="accordionDescription1">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription1" aria-expanded="true" aria-controls="collapseDescription1">
+                                DESCRIPTION
+                            </button>
+                        </h2>
+                        <div id="collapseDescription1" class="accordion-collapse collapse show" data-bs-parent="#accordionDescription1">
+                            <div class="accordion-body">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion my-3" id="accordionDescription2">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDescription2" aria-expanded="true" aria-controls="collapseDescription2">
+                                MATERIAL
+                            </button>
+                        </h2>
+                        <div id="collapseDescription2" class="accordion-collapse collapse show" data-bs-parent="#accordionDescription2">
+                            <div class="accordion-body">
+                                @Model.Description
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="accordionShipping">
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseShipping" aria-expanded="true" aria-controls="collapseShipping">
+                                SHIPPING & RETURNS
+                            </button>
+                        </h2>
+                        <div id="collapseShipping" class="accordion-collapse collapse show" data-bs-parent="#accordionShipping">
+                            <div class="accordion-body">
+                                <strong>Informasi pengiriman dan pengembalian produk.</strong> Isi informasi pengiriman dan pengembalian produk di sini. Misalnya: Pengiriman dilakukan dalam waktu 2-3 hari kerja. Produk dapat dikembalikan dalam waktu 30 hari setelah penerimaan.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+    .accordion-button:focus {
+        box-shadow: none; /* Menghapus bayangan default pada fokus */
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: #000; /* Warna teks ketika accordion terbuka */
+        background-color: #f8f9fa; /* Warna latar belakang ketika accordion terbuka */
+        box-shadow: none;
+    }
+
+    .accordion-header {
+        color: #ddd; /* Border hanya di bagian bawah */
+    }
+
+    .accordion-item {
+        border: none; /* Menghapus border default */
+    }
+
+    .accordion-body {
+        border-bottom: 1px solid #ddd; /* Border hanya di bagian bawah */
+    }
+
+    .sticky-top {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 1rem;
+    }
+
+    .accordion-button:not(.collapsed)::after {
+        background-image: url(data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e);
+        */ transform: rotate(-180deg);
+    }
+
+    .btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+        outline: 0;
+    }
+
+</style>

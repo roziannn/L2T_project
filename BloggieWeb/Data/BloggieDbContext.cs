@@ -20,6 +20,7 @@ namespace BloggieWeb.Data
         public DbSet<UserRoles> UserRoles { get; set; } //added
         public DbSet<Roles> Roles { get; set; } //added
         public DbSet<Profile> Profile { get; set; } //added
+        public DbSet<CartItems> CartItems { get; set; } //added
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Notifications>()
