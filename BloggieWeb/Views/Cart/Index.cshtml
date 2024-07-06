@@ -20,17 +20,65 @@
                 <div class="card-body">
                     <h5 class="card-title">Order Summary</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <li class="list-group-item d-flex justify-content-between border-0 align-items-center">
                             Total Items
                             <span id="totalItems">0</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <li class="list-group-item d-flex justify-content-between border-0 align-items-center">
+                            Include Tax
+                            <span id="tax">0</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
                             Total Price
-                            <span id="totalPrice">$0.00</span>
+                            <h6 class="fw-bold" id="totalPrice">0</h6>
                         </li>
                     </ul>
                     <button class="btn btn-primary mt-3 p-2 w-100 btn-dark">Proceed to Checkout</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="checkoutModalLabel">CHECKOUT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="checkoutDetailsContainer">
+                </div>
+                <div class="mt-4">
+                    <h5 class="fw-bold">Shipping Option</h5>
+                    <p>Fed Express</p>
+                    <ul>
+                        <li>UK: 5 - 10 days</li>
+                        <li>USA: 7 - 14 days</li>
+                        <li>Europe (outside UK): 5 - 12 days</li>
+                        <li>Asia (outside Indonesia): 3 - 9 days</li>
+                        <li>Australia: 5 - 10 days</li>
+                    </ul>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div>
+
+                        <strong>Receiver</strong>
+                        <p>
+                            Hardin Peter (+910212997),
+                            310 W Northwest Hwy, California
+                            <br />
+                            29530
+                        </p>
+                    </div>
+                    <div>
+                        <a href="#" class="text-dark">Change address</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark p-2" style="width:100%;">Confirm Purchase</button>
             </div>
         </div>
     </div>
@@ -48,40 +96,48 @@
                         cartItemsContainer.empty();
 
                         var totalItems = 0;
+                        var totalTax = 0;
                         var totalPrice = 0;
 
                         response.forEach(function (item) {
                             var subtotal = item.quantity * item.price;
+                            var tax = 12250 * item.quantity;
+                            totalTax += tax;
+                            totalPrice += subtotal + tax;
+                            var formattedPrice = parseFloat(item.price).toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+                            var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+
                             var cartItemHtml = `
-                                        <div class="col-lg-12 mb-3 border-bottom position-relative">
-                                            <div class="row no-gutters p-3">
-                                                <div class="col-12 col-lg-4">
-                                                    <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
-                                                </div>
-                                                <div class="col-12 col-lg-8">
-                                                    <div class="card-body">
-                                                        <h6 class="card-title fw-bold">${item.productName}</h6>
-                                                            <p class="m-0">Category: ${item.productCategory}</p>
-                                                            <p class="m-0">QTY: ${item.quantity}</p>
-                                                            <p class="m-0 fw-bold mb-4">Rp${item.price}</p>
-                                                            <h6 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> Rp${subtotal}</h6>
+                                                <div class="col-lg-12 mb-3 border-bottom position-relative">
+                                                    <div class="row no-gutters p-3">
+                                                        <div class="col-12 col-lg-4">
+                                                            <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
+                                                        </div>
+                                                        <div class="col-12 col-lg-8">
+                                                            <div class="card-body">
+                                                                <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                                <p class="m-0">Category: ${item.productCategory}</p>
+                                                                <p class="m-0">QTY: ${item.quantity}</p>
+                                                                <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                                                <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</h5>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
                                                 </div>
-                                            </div>
-                                            <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
-                                        </div>
-                                    `;
+                                            `;
                             cartItemsContainer.append(cartItemHtml);
 
-                            // Calculate total items and total price
+                            // Calculate total items
                             totalItems += item.quantity;
-                            totalPrice += (item.quantity * item.price);
                         });
 
+                        // Update summary card
                         $('#totalItems').text(totalItems);
-                        $('#totalPrice').text('$' + totalPrice.toFixed(2));
+                        $('#tax').text('Rp.' + totalTax.toLocaleString('id-ID').replace(/,00$/, ''));
+                        $('#totalPrice').text('Rp.' + totalPrice.toLocaleString('id-ID').replace(/,00$/, ''));
 
-                        // Add delete button functionality
+                        // Add delete button functionality with SweetAlert confirmation
                         $('.delete-item').on('click', function () {
                             var itemId = $(this).data('id');
                             Swal.fire({
@@ -89,17 +145,19 @@
                                 text: "You won't be able to revert this!",
                                 icon: 'warning',
                                 showCancelButton: true,
-                                confirmButtonColor: '#000',
+                                confirmButtonColor: '#3085d6',
                                 cancelButtonColor: '#d33',
                                 confirmButtonText: 'Yes, delete it!'
                             }).then((result) => {
                                 if (result.isConfirmed) {
+                                    // AJAX call to delete item from cart
                                     $.ajax({
                                         url: '/Cart/DeleteItem',
                                         type: 'POST',
                                         data: { id: itemId },
                                         success: function (response) {
                                             if (response.success) {
+                                                // Reload cart items
                                                 location.reload();
                                             } else {
                                                 console.error(response.message);
@@ -112,8 +170,34 @@
                                 }
                             });
                         });
-                    } else {
-                        $('#cartItemsContainer').html('<p>No items in the cart.</p>');
+
+                        // Show modal with next
+                        $('#summaryContainer .btn-primary').on('click', function () {
+                            var checkoutDetailsHtml = '';
+
+                            response.forEach(function (item) {
+                                var subtotal = item.quantity * item.price;
+                                var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
+
+                                checkoutDetailsHtml += `
+                                    <div class="row mb-1 align-items-center">
+                                        <div class="col-12 col-lg-2">
+                                            <img src="${item.imageUrl}" style="max-height: 100px; width: auto;" alt="Product Image">
+                                    </div>
+                                    <div class="col-12 col-lg-6">
+                                        <div class="card-body">
+                                            <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                 <p class="m-0">Category: ${item.productCategory}</p>
+                                                 <p class="m-0">QTY: ${item.quantity}</p>
+                                                 <p class="m-0 fw-bold mb-4">${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                        </div>
+                                    </div>
+                                    `;
+                            });
+
+                            $('#checkoutDetailsContainer').html(checkoutDetailsHtml);
+                            $('#checkoutModal').modal('show');
+                        });
                     }
                 },
                 error: function () {
