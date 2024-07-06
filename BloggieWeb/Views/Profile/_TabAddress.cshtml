@@ -3,38 +3,49 @@
         <div class="row mb-3">
             <label for="addressLine1" class="col-sm-2 col-form-label">Address/Street</label>
             <div class="col-sm-10 justify-content-end">
-                <input type="text" class="form-control" id="addressLine1" placeholder="1234 Main St">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="addressLine2" class="col-sm-2 col-form-label">Province</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="addressLine2" placeholder="Apartment, studio, or floor">
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label for="addressLine2" class="col-sm-2 col-form-label">State</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="addressLine2" placeholder="Apartment, studio, or floor">
+                <input type="text" class="form-control" id="address" placeholder="1234 Main St">
+                <small class="form-text text-danger d-none">Address is required.</small>
             </div>
         </div>
         <div class="row mb-3">
             <label for="birthdate" class="col-sm-2 col-form-label">City</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" placeholder="Select Birth Date">
+                <input type="text" class="form-control" id="city" placeholder="Select Birth Date">
+                <small class="form-text text-danger d-none">City is required.</small>
+
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="addressLine2" class="col-sm-2 col-form-label">State</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="state" placeholder="Apartment, studio, or floor">
+                <small class="form-text text-danger d-none">State is required.</small>
+
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label for="addressLine2" class="col-sm-2 col-form-label">Province</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="province" placeholder="Apartment, studio, or floor">
+                <small class="form-text text-danger d-none">Province is required.</small>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="country" class="col-sm-2 col-form-label">Zip Code</label>
             <div class="col-sm-10">
-                <input type="number" class="form-control" id="phone" placeholder="Country">
+                <input type="number" class="form-control" id="zipCode" placeholder="Zip code">
+                <small class="form-text text-danger d-none">Zip code is required.</small>
+
             </div>
         </div>
 
         <div class="row">
             <div class="col-sm-10 offset-sm-2">
-                <button class="btn btn-md btn-dark px-5 rounded-0 flex-shrink-0 shadow-none" type="button">
+                <button id="SaveAddressBtn" class="btn btn-md btn-dark px-5 rounded-0 flex-shrink-0 shadow-none"
+                        onclick="validateAddressForm()" type="button">
                     Save Changes
                 </button>
             </div>

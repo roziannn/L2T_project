@@ -69,8 +69,39 @@
                 input.removeClass('is-invalid');
                 warning.addClass('d-none').text('');
             });
+        });
 
-          
+        $(document).ready(function () {
+            function getUserProfile() {
+                $.ajax({
+                    url: '/Profile/GetUserProfile',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#birthdate').val(data.birthDate);
+                        $('#address').val(data.addressLine);
+                        $('#city').val(data.city);
+                        $('#province').val(data.province);
+                        $('#city').val(data.city);
+                        $('#state').val(data.state);
+                        $('#zipCode').val(data.zipCode);
+
+                        var trimmedGender = data.gender.trim();
+                        var genderSelector = 'input[name="gender"][value="' + trimmedGender + '"]';
+                        $(genderSelector).prop('checked', true).trigger('change');
+
+                        $('#phone').val(data.phoneNumber);
+                        $('input[name="newsletterSubscription"][value="' + data.IsSuscribed + '"]').prop('checked', true);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            getUserProfile();
+
+
         });
 
         function validateForm() {
@@ -123,8 +154,14 @@
                 contentType: 'application/json',
                 data: JSON.stringify(profileData),
                 success: function (response) {
-                    console.log('Success:', response);
-                    // Handle success, e.g., show success message
+                    Swal.fire(
+                        'Success!',
+                        'Profile has been saved.',
+                        'success'
+                    );
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
                 },
                 error: function (error) {
                     console.error('Error:', error.responseJSON.message);
@@ -133,5 +170,73 @@
             });
         });
 
+        $('#SaveAddressBtn').click(function () {
+            var isValidAddress = validateAddressForm();
+
+            if (isValidAddress) {
+                var userId = $('#userNewId').val();
+
+                var addressData = {
+                    UserNewId: userId,
+                    FullName: $('#fullName').val(),
+
+                    AddressLine: $('#address').val(),
+                    City: $('#city').val(),
+                    State: $('#state').val(),
+                    Province: $('#province').val(),
+                    ZipCode: $('#zipCode').val()
+                };
+                $.ajax({
+                    url: '/Profile/UpdateAddress',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(addressData),
+                    success: function (response) {
+                        Swal.fire(
+                            'Success!',
+                            'Address has been saved.',
+                            'success'
+                        );
+
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1500);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error.responseJSON.message);
+                    }
+                });
+            }
+        });
+
+        function validateAddressForm() {
+            var isValidAddress = true;
+
+            var addressToValidate = [
+                { id: 'address', warning: 'Address is required.' },
+                { id: 'city', warning: 'City is required.' },
+                { id: 'state', warning: 'State is required.' },
+                { id: 'province', warning: 'Province is required.' },
+                { id: 'zipCode', warning: 'ZipCode is required.' }
+            ];
+
+            addressToValidate.forEach(function (field) {
+                var input = $('#' + field.id);
+                var warning = input.next('small');
+
+                if (!input.val()) {
+                    input.addClass('is-invalid');
+                    warning.removeClass('d-none').text(field.warning);
+                    isValidAddress = false; // Fixed typo, should be isValidAddress instead of isValid
+                } else {
+                    input.removeClass('is-invalid');
+                    warning.addClass('d-none').text('');
+                }
+            });
+
+            return isValidAddress;
+        }
+
+       
     </script>
 }

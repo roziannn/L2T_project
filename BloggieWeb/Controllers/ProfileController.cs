@@ -96,6 +96,25 @@ namespace BloggieWeb.Controllers
 
             return BadRequest(ModelState);
         }
+
+        [HttpPost("UpdateAddress")]
+        public async Task<IActionResult> UpdateAddress([FromBody] Profile data)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var result = _profileService.UpdateAddress(data);
+
+                if (result)
+                {
+                    return Ok(new { message = "Product updated successfully" });
+                }
+
+                return BadRequest(new { message = "Failed to update profile" });
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
 
