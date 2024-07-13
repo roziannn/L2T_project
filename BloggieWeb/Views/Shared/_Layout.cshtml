@@ -103,31 +103,33 @@
                                         <a class="dropdown-item text-dark" asp-area="" asp-controller="Dashboard"
                                            asp-action="Index">Dashboard</a>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Broadcast"
-                                           asp-action="Index">Broadcast</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminTags"
-                                           asp-action="Add">Add Tag</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminTags"
-                                           asp-action="List">Show All Tags</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminBlogPosts"
-                                           asp-action="Add">Add BlogPost</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminBlogPosts"
-                                           asp-action="List">All BlogPost</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminUsers"
-                                           asp-action="List">All Users</a>
-                                    </li>
-
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="Broadcast"
+                                               asp-action="Index">Broadcast</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminTags"
+                                               asp-action="Add">Add Tag</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminTags"
+                                               asp-action="List">Show All Tags</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminBlogPosts"
+                                               asp-action="Add">Add BlogPost</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminBlogPosts"
+                                               asp-action="List">All BlogPost</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item text-dark" asp-area="" asp-controller="AdminUsers"
+                                               asp-action="List">All Users</a>
+                                        </li>
+                                    }
                                     <li class="border-top">
                                         <a class="dropdown-item text-danger" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
                                     </li>
@@ -207,18 +209,28 @@
 
     </style>
 
-
-    <footer class="text-footer py-3">
-        <ul class="nav justify-content-center pb-3 mb-3">
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">HOME</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">ABOUT</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">LEARN</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">SHOP</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">COMMUNITY</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">INSTAGRAM</a></li>
-        </ul>
-        <p class="text-center text-footer-brand">© 2024 LEARN2TECH</p>
-    </footer>
+   @*  start footer *@
+   @*  if page is showing accessDenied, hide the Footer *@
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        var hideFooter = currentController == "Account" && currentAction == "AccessDenied";
+    }
+    @if (!hideFooter)
+    {
+        <footer class="text-footer py-3">
+            <ul class="nav justify-content-center pb-3 mb-3">
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">HOME</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">ABOUT</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">LEARN</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">SHOP</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">COMMUNITY</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-3 text-dark">INSTAGRAM</a></li>
+            </ul>
+            <p class="text-center text-footer-brand">© 2024 LEARN2TECH</p>
+        </footer>
+    }
+    @*  end footer *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

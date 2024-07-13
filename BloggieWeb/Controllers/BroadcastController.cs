@@ -2,12 +2,13 @@
 using BloggieWeb.Models.Domain;
 using BloggieWeb.Models.ViewModels;
 using BloggieWeb.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BloggieWeb.Controllers
 {
     [Route("Broadcast")]
-
+    [Authorize(Roles = "Admin")]
     public class BroadcastController(IBroadcastService broadcastService, BloggieDbContext dbContext) : Controller
     {
 

@@ -41,7 +41,7 @@
 </div>
 
 <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="checkoutModalLabel">CHECKOUT</h5>
@@ -52,14 +52,10 @@
                 </div>
                 <div class="mt-4">
                     <h5 class="fw-bold">Shipping Option</h5>
-                    <p>Fed Express</p>
-                    <ul>
-                        <li>UK: 5 - 10 days</li>
-                        <li>USA: 7 - 14 days</li>
-                        <li>Europe (outside UK): 5 - 12 days</li>
-                        <li>Asia (outside Indonesia): 3 - 9 days</li>
-                        <li>Australia: 5 - 10 days</li>
-                    </ul>
+                    <p>
+                        <strong>Fed Express</strong> | UK: 5 - 10 days, USA: 7 - 14 days, <br /> Europe (outside UK): 5 - 12 days, Asia : 3 - 9 days
+                        Australia: 5 - 10 days
+                    </p>
                 </div>
                 <div class="d-flex justify-content-between">
                     <div>
@@ -76,9 +72,35 @@
                         <a href="#" class="text-dark">Change address</a>
                     </div>
                 </div>
+                <div>
+                    <strong>Choose Payment</strong>
+                    <p>Select your payment option.</p>
+                    <form>
+                        <div class="d-flex justify-content-between">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="qris" value="QRIS" checked>
+                                <label class="form-check-label" for="qris">
+                                    QRIS
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="va" value="VA">
+                                <label class="form-check-label" for="va">
+                                    VIRTUAL ACCOUNT (VA) Bank transfer
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payInStore" value="PayInStore">
+                                <label class="form-check-label" for="payInStore">
+                                    PAY IN STORE
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-dark p-2" style="width:100%;">Confirm Purchase</button>
+                <button type="button" id="confirmPurchaseBtn" class="btn btn-dark p-2" style="width:100%;">Confirm Purchase</button>
             </div>
         </div>
     </div>
@@ -109,24 +131,24 @@
                             var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
                             var cartItemHtml = `
-                                                <div class="col-lg-12 mb-3 border-bottom position-relative">
-                                                    <div class="row no-gutters p-3">
-                                                        <div class="col-12 col-lg-4">
-                                                            <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
-                                                        </div>
-                                                        <div class="col-12 col-lg-8">
-                                                            <div class="card-body">
-                                                                <h6 class="card-title fw-bold">${item.productName}</h6>
-                                                                <p class="m-0">Category: ${item.productCategory}</p>
-                                                                <p class="m-0">QTY: ${item.quantity}</p>
-                                                                <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
-                                                                <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</h5>
+                                                        <div class="col-lg-12 mb-3 border-bottom position-relative">
+                                                            <div class="row no-gutters p-3">
+                                                                <div class="col-12 col-lg-4">
+                                                                    <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
+                                                                </div>
+                                                                <div class="col-12 col-lg-8">
+                                                                    <div class="card-body">
+                                                                        <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                                        <p class="m-0">Category: ${item.productCategory}</p>
+                                                                        <p class="m-0">QTY: ${item.quantity}</p>
+                                                                        <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                                                        <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</h5>
+                                                                    </div>
+                                                                </div>
                                                             </div>
+                                                            <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
                                                         </div>
-                                                    </div>
-                                                    <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
-                                                </div>
-                                            `;
+                                                    `;
                             cartItemsContainer.append(cartItemHtml);
 
                             // Calculate total items
@@ -183,19 +205,19 @@
                                 var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
                                 checkoutDetailsHtml += `
-                                    <div class="row mb-1 align-items-center">
-                                        <div class="col-12 col-lg-2">
-                                            <img src="${item.imageUrl}" style="max-height: 100px; width: auto;" alt="Product Image">
-                                    </div>
-                                    <div class="col-12 col-lg-6">
-                                        <div class="card-body">
-                                            <h6 class="card-title fw-bold">${item.productName}</h6>
-                                                 <p class="m-0">Category: ${item.productCategory}</p>
-                                                 <p class="m-0">QTY: ${item.quantity}</p>
-                                                 <p class="m-0 fw-bold mb-4">${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
-                                        </div>
-                                    </div>
-                                    `;
+                                            <div class="row mb-1 align-items-center">
+                                                <div class="col-12 col-lg-2">
+                                                    <img src="${item.imageUrl}" style="max-height: 100px; width: auto;" alt="Product Image">
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <div class="card-body">
+                                                    <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                         <p class="m-0">Category: ${item.productCategory}</p>
+                                                         <p class="m-0">QTY: ${item.quantity}</p>
+                                                         <p class="m-0 fw-bold mb-4">${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                                </div>
+                                            </div>
+                                            `;
                             });
 
                             $('#checkoutDetailsContainer').html(checkoutDetailsHtml);
@@ -208,6 +230,31 @@
                 error: function () {
                     console.error('Failed to fetch cart items.');
                     $('#summaryContainer').css('display', 'none');
+                }
+            });
+        });
+
+        document.getElementById('confirmPurchaseBtn').addEventListener('click', function () {
+            Swal.fire({
+                title: 'Apakah kamu yakin pesanan sudah benar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ya, sudah benar',
+                cancelButtonText: 'Cek lagi'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Add the logic to proceed with the purchase here
+                    Swal.fire(
+                        'Pesanan Dikonfirmasi!',
+                        'Pesanan Anda telah dikonfirmasi.',
+                        'success'
+                    );
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire(
+                        'Periksa Kembali',
+                        'Silakan periksa kembali pesanan Anda.',
+                        'info'
+                    );
                 }
             });
         });

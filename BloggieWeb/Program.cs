@@ -21,6 +21,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("BloggieAuthDbCon
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().
     AddEntityFrameworkStores<AuthDbContext>();
 
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Default settings pass
