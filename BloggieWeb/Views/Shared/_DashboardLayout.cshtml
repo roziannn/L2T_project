@@ -7,36 +7,44 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="Dashboard" aria-current="page">
-                    <i class='bx bxs-dashboard mx-2'></i> Dashboard
+                <a class="nav-link nav-link-sidebar active" asp-action="Index" asp-controller="Order" aria-current="page">
+                    <i class='bx bxs-cart mx-2'></i> Order History
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstProduct">
-                    <i class='bx bx-box mx-2'></i> Master Product
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstArticle">
-                    <i class='bx bxs-news mx-2'></i> Master Article
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstUser">
-                    <i class='bx bx-user mx-2'></i> Master User
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" href="#">
-                    <i class='bx bxs-report mx-2'></i>Master Reports
-                </a>
-            </li>
-            <hr class="text-white" />
-            <li class="nav-item">
-                <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="Broadcast">
+             @if (User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="Dashboard" aria-current="page">
+                        <i class='bx bxs-dashboard mx-2'></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstProduct">
+                        <i class='bx bx-box mx-2'></i> Master Product
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstArticle">
+                        <i class='bx bxs-news mx-2'></i> Master Article
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="MstUser">
+                        <i class='bx bx-user mx-2'></i> Master User
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" href="#">
+                        <i class='bx bxs-report mx-2'></i>Master Reports
+                    </a>
+                </li>
+                <hr class="text-white" />
+                <li class="nav-item">
+                    <a class="nav-link nav-link-sidebar" asp-action="Index" asp-controller="Broadcast">
                     <i class='bx bx-broadcast mx-2'></i> Broadcast
                 </a>
             </li>
+            }
         </ul>
     </div>
 </nav>

@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using BloggieWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using BloggieWeb.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BloggieWeb.Controllers
 {
     [Route("MstProduct")]
+    [Authorize(Roles = "Admin")]
+
     public class MstProductController(IMstProductService productService, BloggieDbContext dbContext) : Controller
     {
 

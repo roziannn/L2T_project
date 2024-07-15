@@ -2,6 +2,7 @@
 using BloggieWeb.Models.Domain;
 using BloggieWeb.Repositories;
 using BloggieWeb.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Security.Claims;
 namespace BloggieWeb.Controllers
 {
     [Route("MstUser")]
+    [Authorize(Roles = "Admin")]
 
     public class MstUserController(IMstUserService userService, UserManager<IdentityUser> userManager) : Controller
     {

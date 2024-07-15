@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container col-xxl-12 px-lg-4 px-2 py-5 dashboard">
+    <div class="row">
+        <!-- Sidebar -->
+        @await Html.PartialAsync("_DashboardLayout")
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex flex-column flex-md-row  align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h5 class="fw-bold mb-3 mb-md-0">ORDER HISTORY</h5>
+
+            </div>
+            <section class="order-ongoing">
+                <div class="card">
+                    <div class="card-body py-3">
+                        <small>  Tidak ada order berjalan. Explore product now</small>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="order-history">
+                <div class="mt-4">
+
+                    <h6 class="fw-bold mb-3 mb-md-0">COMPLETE</h6>
+                    <div class="card p-3 my-3">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="fw-bold">05/07/2024 08:31 AM WIB</h6>
+                                <h6 class="fw-bold">ORDER ID 07090131-10901451</h6>
+                            </div>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="row">
+                                <div class="col-12 col-lg-10 mb-3 mb-lg-0">
+                                    Status pesanan: Telah dikirimkan <br />
+                                    Estimasi waktu pengiriman: 07/07/2024 - 19/07/2024 <br />
+                                    (Temukan detail pengiriman dalam email pemberitahuan setelah peletakan order) <br />
+                                    Dikirimkan oleh: FedEx<br />
+                                    Resi Number: OLAPZAYSJSA7H001
+                                </div>
+                                <div class="col-12 col-lg-2 d-flex align-items-lg-start align-items-end justify-content-lg-end">
+                                    <button id="btnDetailOrder" class="btn btn-outline-dark"
+                                            onclick="window.location.href='/Orders/Detail'">
+                                        Detail Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-3 my-3">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="fw-bold">05/07/2024 08:31 AM WIB</h6>
+                                <h6 class="fw-bold">ORDER ID 07090131-10901451</h6>
+                            </div>
+                        </div>
+                        <div class="card-body py-3">
+                            <div class="row">
+                                <div class="col-12 col-lg-10 mb-3 mb-lg-0">
+                                    Status pesanan: Telah dikirimkan <br />
+                                    Estimasi waktu pengiriman: 07/07/2024 - 19/07/2024 <br />
+                                    (Temukan detail pengiriman dalam email pemberitahuan setelah peletakan order) <br />
+                                    Dikirimkan oleh: FedEx<br />
+                                    Resi Number: OLAPZAYSJSA7H001
+                                </div>
+                                <div class="col-12 col-lg-2 d-flex align-items-lg-start align-items-end justify-content-lg-end">
+                                    <button id="btnDetailOrder" class="btn btn-outline-dark"
+                                            onclick="window.location.href='/Orders/Detail'">
+                                        Detail Order
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+
+    </script>
+}

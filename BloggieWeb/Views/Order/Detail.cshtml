@@ -1,0 +1,129 @@
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+
+<div class="container col-xxl-12 px-lg-4 px-2 py-5 dashboard">
+    <div class="row">
+        <!-- Sidebar -->
+        @await Html.PartialAsync("_DashboardLayout")
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex flex-column flex-md-row  align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h5 class="fw-bold mb-3 mb-md-0">ORDER HISTORY / Detail</h5>
+
+            </div>
+          @*   <section class="order-ongoing">
+                <div class="card">
+                    <div class="card-body py-3">
+                        <small>  Tidak ada order berjalan. Explore product now</small>
+                    </div>
+                </div>
+
+            </section> *@
+
+            <section class="order-detail">
+                <div class="mt-4">
+
+                    @* <h6 class="fw-bold mb-3 mb-md-0">Ringkasan Pesananan</h6> *@
+                    <a class="text-dark" href="/orders">Back to Order History</a>
+                    <div class="card p-3 my-3 order-detail-scrollable">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="fw-bold">05/07/2024 08:31 AM WIB</h6>
+                                <h6 class="fw-bold">ORDER ID 07090131-10901451</h6>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <div class="row">
+                                <div class="col-12 mb-3 mb-lg-0">
+                                    Status pesanan: Telah dikirimkan <br />
+                                    Estimasi waktu pengiriman: 07/07/2024 - 19/07/2024 <br />
+                                    (Temukan detail pengiriman dalam email pemberitahuan setelah peletakan order) <br />
+                                    Dikirimkan oleh: FedEx<br />
+                                    Resi Number: OLAPZAYSJSA7H001
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body  border-bottom py-3">
+                            <div class="row">
+                                <h6>Receiver Address</h6>
+                                <div class="col-12 mb-3 mb-lg-0">
+                                    Hardin Peter <br />
+                                    310 W Northwest Hwy, Canoga Park, <br />
+                                    California, CA 91306
+                                    <br />
+                                    (415) 372-3437
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <div class="row">
+                                <h6>Payment</h6>
+                                <div class="col-12 mb-3 mb-lg-0">
+                                    Visa <br />
+                                    4024007195355549 <br />
+                                    2027/5
+                                    <br />
+                                    CVV 819
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                            <div class="row">
+                                <h6>Product</h6>
+                                <div class="col-lg-12 position-relative">
+                                    <div class="row no-gutters">
+                                        <div class="col-12 col-lg-4">
+                                            <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
+                                        </div>
+                                        <div class="col-12 col-lg-8">
+                                            <div class="card-body">
+                                                <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                <p class="m-0">Category: ${item.productCategory}</p>
+                                                <p class="m-0">QTY: ${item.quantity}</p>
+                                                <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                                <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body border-bottom py-3">
+                                <div class="row">
+                                <h6>SUBTOTAL</h6>
+
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between border-0 align-items-center">
+                                        Subtotal produk
+                                        <span id="totalItems">0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between border-0 align-items-center">
+                                        Include Tax
+                                        <span id="tax">0</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center mt-4">
+                                        TOTAL PRICE
+                                        <h6 class="fw-bold" id="totalPrice">0</h6>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+@section Scripts {
+}
+<style>
+    .order-detail-scrollable {
+        max-height: 542px; 
+        overflow-y: auto; /* Mengaktifkan scrollbar vertikal */
+        padding-right: 10px; /* Tambahkan padding untuk menghindari overlap dengan scrollbar */
+    }
+</style>

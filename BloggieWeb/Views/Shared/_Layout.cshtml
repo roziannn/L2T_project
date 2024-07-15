@@ -100,8 +100,8 @@
                                            asp-action="Index">Profile</a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Dashboard"
-                                           asp-action="Index">Dashboard</a>
+                                        <a class="dropdown-item text-dark" asp-area="" asp-controller="Orders"
+                                           asp-action="Index">Order History</a>
                                     </li>
                                     @if (User.IsInRole("Admin"))
                                     {
@@ -205,6 +205,10 @@
             justify-content: space-between;
             align-items: center;
             margin: 10px 0;
+        }
+
+        .card {
+            border-radius: 0;
         }
 
     </style>
