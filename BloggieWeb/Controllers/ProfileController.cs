@@ -3,6 +3,7 @@ using BloggieWeb.Models.Domain;
 using BloggieWeb.Models.ViewModels;
 using BloggieWeb.Repositories;
 using BloggieWeb.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -95,6 +96,34 @@ namespace BloggieWeb.Controllers
             }
 
             return BadRequest(ModelState);
+        }
+
+        [HttpGet("CheckAddress")]
+        public async Task<IActionResult> CheckAddress()
+        {
+            string userId = userManager.GetUserId(User);
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var profile = await _context.Profile.FirstOrDefaultAsync(p => p.UserNewId == userId);
+
+            if (profile == null)
+            {
+                return NotFound("Profile not found.");
+            }
+
+            var isAddressComplete = _profileService.IsAddressComplete(profile);
+            return Json(new { isAddressComplete });
         }
 
         [HttpPost("UpdateAddress")]

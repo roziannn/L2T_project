@@ -10,6 +10,7 @@ namespace BloggieWeb.Service
     {
         bool Update(Profile model);
         bool UpdateAddress(Profile model);
+        bool IsAddressComplete(Profile profile);
     }
 
 
@@ -17,6 +18,22 @@ namespace BloggieWeb.Service
     {
         private readonly BloggieDbContext _context = dbContext;
         private readonly AuthDbContext _authDbContext = authDbContext;
+
+        public bool IsAddressComplete(Profile profile)
+        {
+            if (profile == null)
+            {
+                return false;
+            }
+
+            // Memeriksa setiap kolom alamat diisi
+            bool isComplete = !string.IsNullOrEmpty(profile.AddressLine) &&
+                              !string.IsNullOrEmpty(profile.City) &&
+                              !string.IsNullOrEmpty(profile.State) &&
+                              !string.IsNullOrEmpty(profile.Province) &&
+                              !string.IsNullOrEmpty(profile.ZipCode);
+             return isComplete;
+        }
 
         public bool Update(Profile model)
         {

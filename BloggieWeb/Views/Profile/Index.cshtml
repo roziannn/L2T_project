@@ -95,13 +95,15 @@
                     },
                     error: function (error) {
                         console.error('Error:', error);
+                        document.getElementById('profileAlert').classList.remove('d-none');
+                        document.getElementById('addressAlert').classList.remove('d-none');
+
                     }
                 });
             }
 
             getUserProfile();
-
-
+            checkAddress();
         });
 
         function validateForm() {
@@ -237,6 +239,19 @@
             return isValidAddress;
         }
 
-       
+        function checkAddress() {
+            $.ajax({
+                url: '/Profile/CheckAddress',
+                type: 'GET',
+                success: function (data) {
+                    if (!data.isAddressComplete) {
+                        $('#addressAlert').removeClass('d-none');
+                    } else {
+                        $('#addressAlert').addClass('d-none');
+                    }
+                }
+            });
+        }
+
     </script>
 }
