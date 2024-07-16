@@ -57,19 +57,21 @@
                         Australia: 5 - 10 days
                     </p>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-3">
                     <div>
-
                         <strong>Receiver</strong>
-                        <p>
-                            Hardin Peter (+910212997),
-                            310 W Northwest Hwy, California
+                        <div id="receiver" class="py-1">
+                            <span id="nameProfile"></span> <span id="phoneProfile"></span>
+                            <div id="addressAlert" class="text-danger p-2 small fw-bold d-none">Your address is not complete!</div>
+                            <span id="addressProfile"></span> <span id="cityProfile"></span>
                             <br />
-                            29530
-                        </p>
+                            <span id="stateProfile"></span>
+                            <br />
+                            <span id="zipCodeProfile"></span>
+                        </div>
                     </div>
                     <div>
-                        <a href="#" class="text-dark">Change address</a>
+                        <a href="/Profile" class="text-dark">Change address</a>
                     </div>
                 </div>
                 <div>
@@ -131,24 +133,24 @@
                             var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
                             var cartItemHtml = `
-                                                        <div class="col-lg-12 mb-3 border-bottom position-relative">
-                                                            <div class="row no-gutters p-3">
-                                                                <div class="col-12 col-lg-4">
-                                                                    <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
-                                                                </div>
-                                                                <div class="col-12 col-lg-8">
-                                                                    <div class="card-body">
-                                                                        <h6 class="card-title fw-bold">${item.productName}</h6>
-                                                                        <p class="m-0">Category: ${item.productCategory}</p>
-                                                                        <p class="m-0">QTY: ${item.quantity}</p>
-                                                                        <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
-                                                                        <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</h5>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
-                                                        </div>
-                                                    `;
+                                                                        <div class="col-lg-12 mb-3 border-bottom position-relative">
+                                                                            <div class="row no-gutters p-3">
+                                                                                <div class="col-12 col-lg-4">
+                                                                                    <img src="${item.imageUrl}" style="max-height: 200px; width: auto;" alt="Product Image">
+                                                                                </div>
+                                                                                <div class="col-12 col-lg-8">
+                                                                                    <div class="card-body">
+                                                                                        <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                                                        <p class="m-0">Category: ${item.productCategory}</p>
+                                                                                        <p class="m-0">QTY: ${item.quantity}</p>
+                                                                                        <p class="m-0 fw-bold mb-4">${formattedPrice.replace('Rp','Rp').replace(/,00$/, '')}</p>
+                                                                                        <h5 class="card-text fw-bold"><small class="me-2">SUBTOTAL:</small> ${formattedSubtotal.replace('Rp', 'Rp').replace(/,00$/, '')}</h5>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button class="btn btn-danger position-absolute top-0 end-0 m-2 delete-item" data-id="${item.id}">&times;</button>
+                                                                        </div>
+                                                                    `;
                             cartItemsContainer.append(cartItemHtml);
 
                             // Calculate total items
@@ -157,8 +159,8 @@
 
                         // Update summary card
                         $('#totalItems').text(totalItems);
-                        $('#tax').text('Rp.' + totalTax.toLocaleString('id-ID').replace(/,00$/, ''));
-                        $('#totalPrice').text('Rp.' + totalPrice.toLocaleString('id-ID').replace(/,00$/, ''));
+                        $('#tax').text('Rp' + totalTax.toLocaleString('id-ID').replace(/,00$/, ''));
+                        $('#totalPrice').text('Rp' + totalPrice.toLocaleString('id-ID').replace(/,00$/, ''));
 
                         $('#summaryContainer').removeClass('d-none');
 
@@ -205,19 +207,19 @@
                                 var formattedSubtotal = subtotal.toLocaleString('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 });
 
                                 checkoutDetailsHtml += `
-                                            <div class="row mb-1 align-items-center">
-                                                <div class="col-12 col-lg-2">
-                                                    <img src="${item.imageUrl}" style="max-height: 100px; width: auto;" alt="Product Image">
-                                            </div>
-                                            <div class="col-12 col-lg-6">
-                                                <div class="card-body">
-                                                    <h6 class="card-title fw-bold">${item.productName}</h6>
-                                                         <p class="m-0">Category: ${item.productCategory}</p>
-                                                         <p class="m-0">QTY: ${item.quantity}</p>
-                                                         <p class="m-0 fw-bold mb-4">${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
-                                                </div>
-                                            </div>
-                                            `;
+                                                            <div class="row mb-1 align-items-center">
+                                                                <div class="col-12 col-lg-2">
+                                                                    <img src="${item.imageUrl}" style="max-height: 100px; width: auto;" alt="Product Image">
+                                                            </div>
+                                                            <div class="col-12 col-lg-6">
+                                                                <div class="card-body">
+                                                                    <h6 class="card-title fw-bold">${item.productName}</h6>
+                                                                         <p class="m-0">Category: ${item.productCategory}</p>
+                                                                         <p class="m-0">QTY: ${item.quantity}</p>
+                                                                         <p class="m-0 fw-bold mb-4">${formattedSubtotal.replace('Rp', 'Rp.').replace(/,00$/, '')}</p>
+                                                                </div>
+                                                            </div>
+                                                            `;
                             });
 
                             $('#checkoutDetailsContainer').html(checkoutDetailsHtml);
@@ -258,5 +260,52 @@
                 }
             });
         });
+
+        $(document).ready(function () {
+            function getUserProfile() {
+                $.ajax({
+                    url: '/Profile/GetUserProfile',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#nameProfile').text(data.fullName);
+                        $('#phoneProfile').text("(" + data.phoneNumber + ")" + ",");
+                        $('#addressProfile').text(data.addressLine);
+                        $('#cityProfile').text(data.city);
+                        $('#stateProfile').text(data.state);
+                        $('#zipCodeProfile').text(data.zipCode);
+
+                        document.getElementById('receiver').classList.remove('d-none');
+                        console.error('myData:', data);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+
+
+                    }
+                });
+            }
+
+            getUserProfile();
+            checkAddress();
+
+        });
+
+        function checkAddress() {
+            $.ajax({
+                url: '/Profile/CheckAddress',
+                type: 'GET',
+                success: function (data) {
+                    if (!data.isAddressComplete) {
+                        $('#addressAlert').removeClass('d-none');
+                        $('#confirmPurchaseBtn').prop('disabled', true);
+                    } else {
+                        $('#addressAlert').addClass('d-none');
+
+                        $('#confirmPurchaseBtn').prop('disabled', false);
+                    }
+                }
+            });
+        }
     </script>
 }

@@ -4,74 +4,79 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="container col-xxl-12 px-4 py-5">
-        <div class="row align-items-center g-5 py-5">
-            <div class="col-12 col-lg-12 text-center">
-                <h1 class="display-6 fw-bold lh-1 mb-5">
-                Learn coding with #Fun. <br /> Start your journey today!
-                </h1>
-                <div class="col-12 my-3">
-                    @if (Model != null && Model.Tags.Any())
-                    {
-                        @foreach (var tag in Model.Tags)
-                        {
-                            @* <span class="badge bg-dark m-1">@tag.Name</span> *@
-                            <span class="mx-2 text-tags">@tag.Name</span>
-                        }
-                    }
-                </div>
-                <div class="col-12 my-5">
-                    <img src="https://images.pexels.com/photos/1428347/pexels-photo-1428347.jpeg?auto=compress&cs=tinysrgb&w=600"
-                         alt="Bloggie - Magazine" class="d-block img-fluid mx-lg-auto" width="820px" />
-                </div>
-                <p class="col-12 col-lg-6 lead mx-auto">
-                    Bloggies is the gome to coding blogs covering a vast range of topic like JS, HTML, Java, JavaScript, ASP.NET, C#, Angular etc..
-                    Want to read the latest articles? Join the bloggie app and get weekly blogs in your mail. 👋
-                </p>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="container">
-        <div class="row my-5">
-            <h2 class="fw-bold lh-1 my-4 text-center">
-                New Articles Release
-            </h2>
-            @if (Model != null && Model.BlogPosts.Any())
-            {
-                foreach (var blogPost in Model.BlogPosts)
+<div class="container col-xxl-12 px-4 pt-5 pb-4">
+    <div class="row align-items-center g-5 pt-5">
+        <div class="col-12 col-lg-12 text-center">
+            <div class="col-12 my-3">
+                @if (Model != null && Model.Tags.Any())
                 {
-                    <div class="col-lg-4 col-md-6 mb-3">
-                        <div class="article-post box-shadow p-3">
-                            <a asp-area="" asp-controller="Blogs" asp-action="Index"
-                               asp-route-urlHandle="@blogPost.UrlHandle">
-                                <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
-                                     class="mb-2 d-block img-fluid" />
-                            </a>
-
-                            <a class="article-heading" asp-area="" asp-controller="Blogs" asp-action="Index"
-                               asp-route-urlHandle="@blogPost.UrlHandle">
-                                <h5 class="mb-3">@blogPost.Heading</h5>
-                            </a>
-                            <p class="mb-2">
-                                @blogPost.ShortDescription
-                            </p>
-                            <p class="mb-2">
-                                <span class="article-author"> By @blogPost.Author</span>
-                                <br />
-                                <span class="article-date">@blogPost.PublishedDate.ToShortDateString()</span>
-                            </p>
-                        </div>
-                    </div>
+                    @foreach (var tag in Model.Tags)
+                    {
+                        @* <span class="badge bg-dark m-1">@tag.Name</span> *@
+                        <span class="mx-2 text-tags">@tag.Name</span>
+                    }
                 }
-                <div class="text-center">
-                    <a href="#" class="btn btn-outline-dark px-4 rounded-0">Explore All Articles</a>
+            </div>
+            <div class="col-12 my-4">
+                <img src="/img/default-uploads/hero-banner-2.jpeg"
+                     alt="Bloggie - Magazine" class="d-block img-fluid mx-lg-auto" width="820px" />
+            </div>
+            <h1 class="display-6 fw-bold lh-1 my-5">
+                Learn coding with #Fun.
+            </h1>
+            <p class="col-12 col-lg-8 lead mx-auto text-justify">
+                One of LEARN2TECH mission is to become a positive <strong> open-source organization</strong> dedicated to helping communities grow and thrive
+                in the world of coding. Whether you're a beginner or an experienced developer, join us to explore new
+                technologies, collaborate on exciting projects, and supportive environment.
+            </p>
+        </div>
+        <div class="col-12 my-5">
+            <img src="/img/default-uploads/hero-banner-3.jpeg"
+                 alt="Bloggie - Magazine" class="d-block img-fluid mx-lg-auto" width="820px" />
+        </div>
+        <h2 class="lh-1 my-3 text-center">
+            Learn everyday with <span class="h2 fw-bold">insights</span> from our latest articles.
+        </h2>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        @if (Model != null && Model.BlogPosts.Any())
+        {
+            foreach (var blogPost in Model.BlogPosts)
+            {
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="article-post box-shadow p-3">
+                        <a asp-area="" asp-controller="Blogs" asp-action="Index"
+                           asp-route-urlHandle="@blogPost.UrlHandle">
+                            <img src="@blogPost.FeaturedImageUrl" alt="@blogPost.Heading"
+                                 class="mb-2 d-block img-fluid" />
+                        </a>
+
+                        <a class="article-heading" asp-area="" asp-controller="Blogs" asp-action="Index"
+                           asp-route-urlHandle="@blogPost.UrlHandle">
+                            <h5 class="mb-3">@blogPost.Heading</h5>
+                        </a>
+                        <p class="mb-2">
+                            @blogPost.ShortDescription
+                        </p>
+                        <p class="mb-2">
+                            <span class="article-author"> By @blogPost.Author</span>
+                            <br />
+                            <span class="article-date">@blogPost.PublishedDate.ToShortDateString()</span>
+                        </p>
+                    </div>
                 </div>
             }
-            @*  <a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index"
-            asp-route-urlHandle="@blogPost.UrlHandle">Read More</a> *@
+            <div class="text-center">
+                <a href="#" class="btn btn-outline-dark px-4 rounded-0">Explore All Articles</a>
+            </div>
+        }
+        @*  <a class="btn btn-dark" asp-area="" asp-controller="Blogs" asp-action="Index"
+        asp-route-urlHandle="@blogPost.UrlHandle">Read More</a> *@
 
-        </div>
     </div>
+</div>
 
